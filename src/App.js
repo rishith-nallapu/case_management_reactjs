@@ -44,11 +44,11 @@ const StyledContact = styled.div`
   padding: 20px;
 `;
 
-const StyledAdvocatesList = styled.div`
-  /* Add styles specific to the AdvocatesList component */
-  background-color: #c0c0c0;
-  padding: 20px;
-`;
+// const StyledAdvocatesList = styled.div`
+//   /* Add styles specific to the AdvocatesList component */
+//   background-color: #c0c0c0;
+//   padding: 20px;
+// `;
 
 const StyledLogin = styled.div`
   /* Add styles specific to the Login component */
