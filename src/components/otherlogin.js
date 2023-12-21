@@ -13,9 +13,8 @@ const AppContainer = styled.div`
   justify-content: center;
 `;
 
-const SignupContainer = styled.div`
+const LoginContainer = styled.div`
   background-color: rgba(255, 255, 255, 0.8);
-  // background-color:black;
   padding: 20px;
   border-radius: 10px;
   width: 350px;
@@ -41,7 +40,7 @@ const Input = styled.input`
   width: 250px;
   padding: 10px;
   box-sizing: border-box;
-  border-radius: 8px;
+  border-radius:8px;
 `;
 
 const PasswordContainer = styled.div`
@@ -66,7 +65,7 @@ const Button = styled.button`
   cursor: pointer;
 `;
 
-const Signup = () => {
+const Login = () => {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [showPassword, setShowPassword] = useState(false);
@@ -79,13 +78,12 @@ const Signup = () => {
     e.preventDefault();
     console.log('Username:', username);
     console.log('Password:', password);
-    // Add signup logic here
   };
 
   return (
     <AppContainer>
-      <SignupContainer>
-        <h2>Sign Up</h2>
+      <LoginContainer>
+        <h2>Login</h2>
         <br />
 
         <Form onSubmit={handleSubmit}>
@@ -116,13 +114,14 @@ const Signup = () => {
             </PasswordContainer>
           </FormGroup>
 
-          <Button type="submit">Sign Up</Button>
+          <Button type="submit">Login</Button>
         </Form>
         <br />
-        <Link to="/login">Already have an account? Login</Link>
-      </SignupContainer>
+        <Link to="/signup">Don't have an account? Sign Up</Link>
+
+      </LoginContainer>
     </AppContainer>
   );
 };
 
-export default Signup;
+export default Login;

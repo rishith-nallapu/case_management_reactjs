@@ -55,13 +55,13 @@
 
 // const App = () => {
 //   return (
-//     <Router>
-//       <Routes>
-//         <Route path="/" element={<Loginpage />} />
-//         <Route path="/signup" element={<Signup />} />
-//         <Route path="/components" element={<Navbarlayout />} />
-//       </Routes>
-//     </Router>
+    // <Router>
+    //   <Routes>
+    //     <Route path="/" element={<Loginpage />} />
+    //     <Route path="/signup" element={<Signup />} />
+    //     <Route path="/components" element={<Navbarlayout />} />
+    //   </Routes>
+    // </Router>
 
 //   );
 // };
@@ -95,21 +95,21 @@
 // `;
 // const App = () => {
 //   return (
-//     <Router>
-//       <LayoutContainer>
-//         <NavbarContainer>
-//           <Navbar />
-//         </NavbarContainer>
-//         <ContentContainer>
-//           <Routes>
-//             <Route path="/" element={<Home />} />
-//             <Route path="/about" element={<About />} />
-//             <Route path="/contact" element={<Contact />} />
-//             <Route path="/Advocates" element={<Advocates />} />
-//           </Routes>
-//         </ContentContainer>
-//       </LayoutContainer>
-//     </Router>
+    // <Router>
+    //   <LayoutContainer>
+    //     <NavbarContainer>
+    //       <Navbar />
+    //     </NavbarContainer>
+    //     <ContentContainer>
+    //       <Routes>
+    //         <Route path="/" element={<Home />} />
+    //         <Route path="/about" element={<About />} />
+    //         <Route path="/contact" element={<Contact />} />
+    //         <Route path="/Advocates" element={<Advocates />} />
+    //       </Routes>
+    //     </ContentContainer>
+    //   </LayoutContainer>
+    // </Router>
 //   );
 // };
 
