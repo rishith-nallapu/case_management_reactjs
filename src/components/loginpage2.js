@@ -68,7 +68,7 @@ const Button = styled.button`
   }
 `;
 
-const Signup = () => {
+const Login2 = () => {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [showPassword, setShowPassword] = useState(false);
@@ -86,7 +86,7 @@ const Signup = () => {
   };
   const handleLogin = async () => {
     try {
-      const response = await fetch('http://localhost:5000/api/signup', {
+      const response = await fetch('http://localhost:5000/api/login', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -98,7 +98,7 @@ const Signup = () => {
 
       if (data.success) {
         // Redirect or perform actions upon successful login
-        window.location.href = '/login2'; // Replace with your actual route
+        window.location.href = '/Navbar2'; // Replace with your actual route
       } else {
         setError(data.message);
       }
@@ -111,7 +111,7 @@ const Signup = () => {
   return (
     <AppContainer>
       <SignupContainer>
-        <h2>Sign Up</h2>
+        <h2>Login</h2>
         <br />
 
         <Form onSubmit={handleSubmit}>
@@ -142,14 +142,14 @@ const Signup = () => {
             </PasswordContainer>
           </FormGroup>
 
-          <Button type="submit" onClick={handleLogin}>Sign Up</Button>
+          <Button type="submit" onClick={handleLogin}>Login</Button>
         </Form>
         {error && <p style={{ color: 'red' }}>{error}</p>}
         <br />
-        <Link to="/login">Already have an account? Login</Link>
+        <Link to="/signup2">Already have an account? Login</Link>
       </SignupContainer>
     </AppContainer>
   );
 };
 
-export default Signup;
+export default Login2;

@@ -9,16 +9,14 @@ border:2px solid black;
   margin-right:10px;
   padding: 15px;
 `;
-const About = () => {
+const Documents = () => {
   return (
     <div>
       <Navbar/>
       <Info>
-        <p> <h3>e-mail : </h3>eportalmanaging@gmail.com</p> <br />
-<p> <h3>Contact Details : </h3>011-23116400, 23116401, 23116402 </p>
-        </Info>
+      </Info>
     </div>
   );
 };
 
-export default About;
+export default Documents;

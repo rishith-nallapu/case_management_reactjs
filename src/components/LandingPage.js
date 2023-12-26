@@ -1,12 +1,13 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import styled from 'styled-components';
-import clientImage from './user.png';
-import advocateImage from './person.png';
-import registrarImage from './profile.png';
+import clientImage from './patient.png';
+import advocateImage from './advocate.png';
+import registrarImage from './clerk.png';
 
 const LandingContainer = styled.div`
-  background-color: #f0f0f0;
+background-color:#1A1110;
+background-size: cover;
   height: 100vh;
   display: flex;
   justify-content: center;
@@ -17,12 +18,12 @@ const Column = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
-  margin: 30px;
+  margin: 50px;
 `;
 
 const Image = styled.img`
-  width: 100px;
-  height: 100px;
+  width: 120px;
+  height: 120px;
   object-fit: cover;
   border-radius: 50%;
   margin-bottom: 20px;
@@ -30,7 +31,7 @@ const Image = styled.img`
 
 const LogoButton = styled(Link)`
   display: block;
-  background-color: #4caf50;
+  background-color:#6F00FF;
   color: #fff;
   padding: 20px;
   margin: 10px;
@@ -40,9 +41,9 @@ const LogoButton = styled(Link)`
   font-size: 18px;
   cursor: pointer;
   &:hover{
-    background-color:red;
-    color:white;
+    background-color:#4caf50;
   }
+
 `;
 
 const LandingPage = () => {
@@ -55,12 +56,12 @@ const LandingPage = () => {
 
       <Column>
         <Image src={advocateImage} alt="Advocate" />
-        <LogoButton to="/login">Advocate</LogoButton>
+        <LogoButton to="/login2">Advocate</LogoButton>
       </Column>
 
       <Column>
         <Image src={registrarImage} alt="Registrar" />
-        <LogoButton to="/login">Registrar</LogoButton>
+        <LogoButton to="/login3">Registrar</LogoButton>
       </Column>
     </LandingContainer>
   );

@@ -68,7 +68,7 @@ const Button = styled.button`
   }
 `;
 
-const Signup = () => {
+const Signup2 = () => {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [showPassword, setShowPassword] = useState(false);
@@ -146,10 +146,10 @@ const Signup = () => {
         </Form>
         {error && <p style={{ color: 'red' }}>{error}</p>}
         <br />
-        <Link to="/login">Already have an account? Login</Link>
+        <Link to="/login2">Already have an account? Login</Link>
       </SignupContainer>
     </AppContainer>
   );
 };
 
-export default Signup;
+export default Signup2;
