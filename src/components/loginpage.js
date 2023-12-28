@@ -3,7 +3,7 @@ import styled from 'styled-components';
 import { Link } from 'react-router-dom';
 
 const AppContainer = styled.div`
-background-color:#1A1110;
+background: linear-gradient(to right, #08203e, #557c93);
 background-size: cover;
   background-position: center;
   min-height: 100vh;
@@ -146,7 +146,7 @@ const Login = () => {
         </Form>
         {error && <p style={{ color: 'red' }}>{error}</p>}
         <br />
-        <Link to="/signup">Already have an account? Login</Link>
+        <Link to="/signup">Don't have an account? Sign up</Link>
       </SignupContainer>
     </AppContainer>
   );

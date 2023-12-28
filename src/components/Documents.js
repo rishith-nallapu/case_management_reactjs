@@ -14,6 +14,7 @@ const Documents = () => {
     <div>
       <Navbar/>
       <Info>
+      
       </Info>
     </div>
   );

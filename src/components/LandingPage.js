@@ -32,8 +32,9 @@ const Image = styled.img`
 const LogoButton = styled(Link)`
   display: block;
   background-color:#6F00FF;
+  border: 2px solid white;
   color: #fff;
-  padding: 20px;
+  padding: 15px;
   margin: 10px;
   text-align: center;
   text-decoration: none;
@@ -41,6 +42,7 @@ const LogoButton = styled(Link)`
   font-size: 18px;
   cursor: pointer;
   &:hover{
+    border: 2px solid white;
     background-color:#4caf50;
   }
 
