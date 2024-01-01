@@ -1,155 +1,177 @@
 import React, { useState } from 'react';
-import styled from 'styled-components';
-import { Link } from 'react-router-dom';
+import styled, { createGlobalStyle } from 'styled-components';
+import axios from 'axios';
 
-const AppContainer = styled.div`
-// background-color:#1A1110;
+const AppContainer = createGlobalStyle`
+body{
 background: linear-gradient(to right, #08203e, #557c93);
 background-size: cover;
-  background-position: center;
-  min-height: 100vh;
-  display: flex;
-  align-items: center;
-  justify-content: center;
+}
 `;
-
-const SignupContainer = styled.div`
+const RegistrationFormWrapper = styled.div`
 background-color: #F2F3F4;
+
+  max-width: 600px;
+  margin: 50px auto;
   padding: 20px;
-  border-radius: 15px;
-  width: 350px;
-  text-align: center;
-`;
-
-const Form = styled.form`
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-`;
-
-const FormGroup = styled.div`
-  margin-bottom: 15px;
-`;
-
-const Label = styled.label`
-font-weight:600;
-  display: block;
-  margin-bottom: 5px;
-`;
-
-const Input = styled.input`
-  width: 250px;
-  padding: 10px;
-  box-sizing: border-box;
+  border: 2px solid black;
   border-radius: 8px;
 `;
 
-const PasswordContainer = styled.div`
-  position: relative;
+const FormSection = styled.div`
+  margin-bottom: 20px;
 `;
 
-const EyeIcon = styled.span`
-  position: absolute;
-  top: 50%;
-  right: 10px;
-  transform: translateY(-50%);
-  cursor: pointer;
+const Label = styled.label`
+  display: block;
+  margin-bottom: 8px;
 `;
 
-const Button = styled.button`
-  width: 150px;
-  background-color: #4caf50;
-  color: #fff;
+const Input = styled.input`
+  width: 100%;
+  padding: 8px;
+  margin-bottom: 16px;
+`;
+
+const RadioWrapper = styled.div`
+  display: flex;
+  gap: 20px;
+  margin-bottom: 16px;
+`;
+
+const RadioLabel = styled.label`
+  margin-right: 8px;
+`;
+
+const SubmitButton = styled.button`
+  background-color:  #4caf50;
+  border:2px solid white;
+  color: white;
   padding: 10px 20px;
-  border: none;
-  border-radius: 10px;
   cursor: pointer;
-  &:hover{
-    background-color:#6F00FF;
-  }
+  border-radius:10px;
 `;
 
 const Signup3 = () => {
-  const [username, setUsername] = useState('');
-  const [password, setPassword] = useState('');
-  const [showPassword, setShowPassword] = useState(false);
-  const [error, setError] = useState(null);
 
-  const handlePasswordVisibility = () => {
-    setShowPassword(!showPassword);
+ 
+
+  const [formData, setFormData] = useState({
+    state: '',
+    barRegistrationNumber: '',
+    username: '',
+    dateOfBirth: '',
+    gender: '',
+    courtType: '',
+    mobileNumber: '',
+    password: '',
+    confirmPassword: '',
+  });
+
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setFormData({
+      ...formData,
+      [name]: value,
+    });
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log('Username:', username);
-    console.log('Password:', password);
-    // Add signup logic here
-  };
-  const handleLogin = async () => {
+
     try {
-      const response = await fetch('http://localhost:5000/api/signup', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({ username, password }),
-      });
-
-      const data = await response.json();
-
-      if (data.success) {
-        // Redirect or perform actions upon successful login
-        window.location.href = '/login3'; // Replace with your actual route
-      } else {
-        setError(data.message);
-      }
+      const response = await axios.post('http://localhost:5000/api/register', formData);
+      console.log(response.data);
     } catch (error) {
-      console.error('Error during login:', error);
+      console.error('Error during registration:', error);
     }
+
+    window.location.href='/login3'
   };
 
 
   return (
-    <AppContainer>
-      <SignupContainer>
-        <h2>Sign Up</h2>
-        <br />
+    <>
+    <AppContainer/>
+    <RegistrationFormWrapper>
+      <h2>Registrar Registration</h2>
+      <br />
+      <form onSubmit={handleSubmit}>
+      <FormSection>
+          <Label>State:</Label>
+          <Input type="text" name="state" value={formData.state} onChange={handleChange} required />
+        </FormSection>
 
-        <Form onSubmit={handleSubmit}>
-          <FormGroup>
-            <Label htmlFor="username">Username:</Label>
-            <Input
-              type="text"
-              id="username"
-              name="username"
-              value={username}
-              onChange={(e) => setUsername(e.target.value)}
-              required
-            />
-          </FormGroup>
+        <FormSection>
+          <Label>Name:</Label>
+          <Input type="text" name="username" value={formData.username} onChange={handleChange} required />
+        </FormSection>
 
-          <FormGroup>
-            <Label htmlFor="password">Password:</Label>
-            <PasswordContainer>
-              <Input
-                type={showPassword ? 'text' : 'password'}
-                id="password"
-                name="password"
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
+        <FormSection>
+          <Label>Date of Birth:</Label>
+          <Input type="date" name="dateOfBirth" value={formData.dateOfBirth} onChange={handleChange} required />
+        </FormSection>
+
+        <FormSection>
+          <Label>Gender:</Label>
+          <RadioWrapper>
+            <RadioLabel>
+              <input
+                type="radio"
+                name="gender"
+                value="male"
+                checked={formData.gender === 'male'}
+                onChange={handleChange}
                 required
               />
-              <EyeIcon onClick={handlePasswordVisibility}>👁️</EyeIcon>
-            </PasswordContainer>
-          </FormGroup>
+              Male
+            </RadioLabel>
+            <RadioLabel>
+              <input
+                type="radio"
+                name="gender"
+                value="female"
+                checked={formData.gender === 'female'}
+                onChange={handleChange}
+                required
+              />
+              Female
+            </RadioLabel>
+            <RadioLabel>
+              <input
+                type="radio"
+                name="gender"
+                value="other"
+                checked={formData.gender === 'other'}
+                onChange={handleChange}
+                required
+              />
+              Other
+            </RadioLabel>
+          </RadioWrapper>
+        </FormSection>
 
-          <Button type="submit" onClick={handleLogin}>Sign Up</Button>
-        </Form>
-        {error && <p style={{ color: 'red' }}>{error}</p>}
-        <br />
-        <Link to="/login3">Already have an account? Login</Link>
-      </SignupContainer>
-    </AppContainer>
+        <FormSection>
+          <Label>Mobile Number:</Label>
+          <Input
+            type="tel"
+            name="mobileNumber"
+            pattern="[0-9]{10}"
+            value={formData.mobileNumber}
+            onChange={handleChange}
+            required
+          />
+        </FormSection>
+
+        <FormSection>
+          <Label>Password:</Label>
+          <Input type="password" name="password" value={formData.password} onChange={handleChange} required />
+        </FormSection>
+
+        <SubmitButton type="submit" onClick={handleSubmit}>Submit</SubmitButton>
+      </form>
+    </RegistrationFormWrapper>
+    </>
   );
 };
 

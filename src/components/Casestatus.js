@@ -17,7 +17,7 @@ const Casestatus = () => {
     <div>
       <Navbar />
       <Info>
-        </Info>
+      </Info>
     </div>
   );
 };

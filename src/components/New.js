@@ -1,18 +1,8 @@
 import React, { useState } from 'react';
-import styled, { createGlobalStyle } from 'styled-components';
+import styled from 'styled-components';
 import axios from 'axios';
 
-const AppContainer = createGlobalStyle`
-body{
-background: linear-gradient(to right, #08203e, #557c93);
-background-size: cover;
-}
-
-
-`;
-
 const RegistrationFormWrapper = styled.div`
-background-color: #F2F3F4;
   max-width: 600px;
   margin: 50px auto;
   padding: 20px;
@@ -54,10 +44,7 @@ const SubmitButton = styled.button`
   border-radius:10px;
 `;
 
-const Signup2 = () => {
-
- 
-
+const New = () => {
   const [formData, setFormData] = useState({
     state: '',
     barRegistrationNumber: '',
@@ -87,21 +74,28 @@ const Signup2 = () => {
     } catch (error) {
       console.error('Error during registration:', error);
     }
-
-    window.location.href='/login'
   };
 
 
   return (
-    <>
-    <AppContainer/>
     <RegistrationFormWrapper>
-      <h2>Client Registration</h2>
+      <h2>Advocate Registration</h2>
       <br />
       <form onSubmit={handleSubmit}>
-      <FormSection>
+        <FormSection>
           <Label>State:</Label>
           <Input type="text" name="state" value={formData.state} onChange={handleChange} required />
+        </FormSection>
+
+        <FormSection>
+          <Label>Bar Registration Number:</Label>
+          <Input
+            type="text"
+            name="barRegistrationNumber"
+            value={formData.barRegistrationNumber}
+            onChange={handleChange}
+            required
+          />
         </FormSection>
 
         <FormSection>
@@ -154,6 +148,34 @@ const Signup2 = () => {
         </FormSection>
 
         <FormSection>
+          <Label>Type of Court:</Label>
+          <RadioWrapper>
+            <RadioLabel>
+              <input
+                type="radio"
+                name="courtType"
+                value="district"
+                checked={formData.courtType === 'district'}
+                onChange={handleChange}
+                required
+              />
+              District
+            </RadioLabel>
+            <RadioLabel>
+              <input
+                type="radio"
+                name="courtType"
+                value="highCourt"
+                checked={formData.courtType === 'highCourt'}
+                onChange={handleChange}
+                required
+              />
+              High Court
+            </RadioLabel>
+          </RadioWrapper>
+        </FormSection>
+
+        <FormSection>
           <Label>Mobile Number:</Label>
           <Input
             type="tel"
@@ -170,11 +192,21 @@ const Signup2 = () => {
           <Input type="password" name="password" value={formData.password} onChange={handleChange} required />
         </FormSection>
 
-        <SubmitButton type="submit" onClick={handleSubmit}>Submit</SubmitButton>
+        <FormSection>
+          <Label>Confirm Password:</Label>
+          <Input
+            type="password"
+            name="confirmPassword"
+            value={formData.confirmPassword}
+            onChange={handleChange}
+            required
+          />
+        </FormSection>
+
+        <SubmitButton type="submit">Submit</SubmitButton>
       </form>
     </RegistrationFormWrapper>
-    </>
   );
 };
 
-export default Signup2;
+export default New;

@@ -9,10 +9,14 @@ border:2px solid black;
   margin-right:30px;
   padding: 20px;
 `;
+
+const Cont = styled.div`
+  margin-top: 60px; 
+  padding: 20px;
+`;
 const About = () => {
     return (
-        <div>
-            <Navbar />
+        <Cont>
             <Info>
                 <h3>Welcome to our Court Case Management System – Your Trusted Partner in Legal Excellence!</h3> <br />
 
@@ -22,7 +26,7 @@ const About = () => {
                 <p>4) Secure and Compliant: We prioritize the security and compliance of your legal data, implementing industry-standard security measures.</p> <br />
                 <h4>Our mission is to revolutionize the legal landscape by providing an innovative and user-friendly platform that simplifies and enhances court case management. We are committed to delivering cutting-edge solutions that empower legal professionals and streamline the complexities of the legal process.</h4>
             </Info>
-        </div>
+        </Cont>
     );
 };
 

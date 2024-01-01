@@ -11,14 +11,16 @@ import Firstpage from './components/firstpage';
 import Navbar from './components/Navbar';
 import Navbar2 from './components/Navbar2';
 import Navbar3 from './components/Navbar3';
-import Content from './components/Contact';
+import Contact from './components/Contact';
 import AdvocatesList from './components/advocatelist';
 import About from './components/About';
 import Casestatus from './components/Casestatus' 
 import Messages from './components/Messages';
 import Documents from './components/Documents';
-
-
+import Enteradvocate from './components/Enteradvocate';
+import New from './components/New';
+import CaseForm from './components/Casefiling';
+import ClientsList from './components/Clientslist';
 
 function App() {
   return (
@@ -34,12 +36,16 @@ function App() {
         <Route path="/signup2" element={<Signup2 />} />
         <Route path="/login3" element={<Login3 />} />
         <Route path="/signup3" element={<Signup3 />} />
-        <Route path="/contact" element={<Content />} />
+        <Route path="/contact" element={<Contact />} />
         <Route path="/advocateslist" element={<AdvocatesList />} />
         <Route path="/about" element={<About />} />
         <Route path="/messages" element={<Messages />} />
         <Route path="/casestatus" element={<Casestatus />} />
-        <Route path="/documents" element={<Documents />} />
+        <Route path="/uploads" element={<Documents />} />
+        <Route path="/entry" element={<Enteradvocate />} />
+        <Route path="/new" element={<New />} />
+        <Route path="/casefiling" element={<CaseForm/>} />
+        <Route path="/clientslist" element={<ClientsList/>} />
 
       </Routes>
 

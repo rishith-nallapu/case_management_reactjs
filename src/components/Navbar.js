@@ -72,7 +72,7 @@ const Navbar = ({ children }) => {
             </NavbarLink>
           </NavbarItem>
           <NavbarItem>
-            <NavbarLink to="/documents" >
+            <NavbarLink to="/uploads" >
               Documents
             </NavbarLink>
           </NavbarItem>
@@ -88,7 +88,7 @@ const Navbar = ({ children }) => {
           </NavbarItem>
           <NavbarItem>
             <NavbarLink to="/about" >
-              About
+              About us
             </NavbarLink>
           </NavbarItem>
           <NavbarItem>
@@ -96,7 +96,7 @@ const Navbar = ({ children }) => {
               Contact Us
             </NavbarLink>
           </NavbarItem>
-          <Button to="/login">Logout</Button>
+          <Button to="/landing">Logout</Button>
         </NavbarList>
       </NavbarContainer>
       <ContentBelowNavbar>{children}</ContentBelowNavbar>

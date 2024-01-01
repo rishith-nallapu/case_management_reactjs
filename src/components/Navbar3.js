@@ -100,7 +100,7 @@ const Navbar3 = ({children}) => {
               Contact Us
             </NavbarLink>
           </NavbarItem>
-          <Button to="/login3">Logout</Button>
+          <Button to="/landing">Logout</Button>
         </NavbarList>
       </NavbarContainer>
       <ContentBelow>{children}</ContentBelow>
