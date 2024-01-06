@@ -19,7 +19,7 @@ import Messages from './components/Messages';
 import Documents from './components/Documents';
 import Enteradvocate from './components/Enteradvocate';
 import New from './components/New';
-import CaseForm from './components/Casefiling';
+import CaseFiling from './components/Casefiling';
 import ClientsList from './components/Clientslist';
 
 function App() {
@@ -44,7 +44,7 @@ function App() {
         <Route path="/uploads" element={<Documents />} />
         <Route path="/entry" element={<Enteradvocate />} />
         <Route path="/new" element={<New />} />
-        <Route path="/casefiling" element={<CaseForm/>} />
+        <Route path="/casefiling" element={<CaseFiling/>} />
         <Route path="/clientslist" element={<ClientsList/>} />
 
       </Routes>

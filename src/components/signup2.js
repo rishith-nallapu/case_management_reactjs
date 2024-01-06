@@ -2,14 +2,15 @@ import React, { useState } from 'react';
 import styled, { createGlobalStyle } from 'styled-components';
 import axios from 'axios';
 
-const AppCont = createGlobalStyle`
-body{
-background: linear-gradient(to right, #08203e, #557c93);
-background-size: cover;
-}
+const AppContainer = createGlobalStyle`
+  body {
+    background: linear-gradient(to right, #08203e, #557c93);
+    background-size: cover;
+  }
 `;
+
 const RegistrationFormWrapper = styled.div`
-background-color: #F2F3F4;
+  background-color: #f2f3f4;
   max-width: 600px;
   margin: 50px auto;
   padding: 20px;
@@ -17,7 +18,17 @@ background-color: #F2F3F4;
   border-radius: 8px;
 `;
 
+const EyeIcon = styled.span`
+  position: absolute;
+  top: 60%;
+  right: 10px;
+  transform: translateY(-50%);
+  cursor: pointer;
+  color: #555;
+`;
+
 const FormSection = styled.div`
+  position: relative;
   margin-bottom: 20px;
 `;
 
@@ -30,6 +41,8 @@ const Input = styled.input`
   width: 100%;
   padding: 8px;
   margin-bottom: 16px;
+  border-radius: 5px;
+  border: 1px solid #ccc;
 `;
 
 const RadioWrapper = styled.div`
@@ -43,28 +56,50 @@ const RadioLabel = styled.label`
 `;
 
 const SubmitButton = styled.button`
-  background-color:  #4caf50;
-  border:2px solid white;
+  background-color: #4caf50;
+  border: 2px solid white;
   color: white;
   padding: 10px 20px;
   cursor: pointer;
-  border-radius:10px;
+  border-radius: 10px;
+`;
+
+const Button = styled.button`
+  background-color: #4caf50;
+  color: white;
+  padding: 10px 20px;
+  cursor: pointer;
+  border: none;
+  border-radius: 5px;
+`;
+
+const ErrorMessage = styled.p`
+  color: red;
+  margin-top: 10px;
 `;
 
 const Signup2 = () => {
+  const [showPassword, setShowPassword] = useState(false);
   const [formData, setFormData] = useState({
     state: '',
     barRegistrationNumber: '',
     username: '',
     dateOfBirth: '',
     gender: '',
-    casesDealtWith: '', 
-    yearsOfExperience: '', 
+    casesDealtWith: '',
+    yearsOfExperience: '',
     courtType: '',
     mobileNumber: '',
     password: '',
-    confirmPassword: '',
+    email: '',
+    otp: '',
   });
+
+  const [error, setError] = useState('');
+
+  const handleTogglePassword = () => {
+    setShowPassword(!showPassword);
+  };
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -74,8 +109,37 @@ const Signup2 = () => {
     });
   };
 
+  const handleGenerateOTP = async () => {
+    try {
+      const response = await axios.post('http://localhost:5000/api/send-otp', {
+        mobileNumber: formData.mobileNumber,
+        email: formData.email,
+      });
+      console.log('OTP sent successfully:', response.data);
+    } catch (error) {
+      console.error('Error sending OTP:', error);
+    }
+  };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
+
+    try {
+      const response = await axios.post('http://localhost:5000/api/verify-otp', {
+        email: formData.email,
+        otp: formData.otp,
+      });
+
+      if (response.data.success) {
+        // Redirect to the login page on successful OTP verification
+        window.location.href = '/login2';
+      } else {
+        setError('Invalid OTP. Please try again.');
+      }
+    } catch (error) {
+      console.error('Error during registration:', error);
+      setError('Error during OTP verification. Please try again.');
+    }
 
     try {
       const response = await axios.post('http://localhost:5000/api/register', formData);
@@ -83,83 +147,81 @@ const Signup2 = () => {
     } catch (error) {
       console.error('Error during registration:', error);
     }
-    window.location.href='/login2';
   };
-
 
   return (
     <>
-    <AppCont/>
-    <RegistrationFormWrapper>
-      <h2>Advocate Registration</h2>
-      <br />
-      <form onSubmit={handleSubmit}>
-        <FormSection>
-          <Label>State:</Label>
-          <Input type="text" name="state" value={formData.state} onChange={handleChange} required />
-        </FormSection>
+      <AppContainer />
+      <RegistrationFormWrapper>
+        <h2>Advocate Registration</h2>
+        <br />
+        <form onSubmit={handleSubmit}>
+          <FormSection>
+            <Label>State:</Label>
+            <Input type="text" name="state" value={formData.state} onChange={handleChange} required />
+          </FormSection>
 
-        <FormSection>
-          <Label>Bar Registration Number:</Label>
-          <Input
-            type="text"
-            name="barRegistrationNumber"
-            value={formData.barRegistrationNumber}
-            onChange={handleChange}
-            required
-          />
-        </FormSection>
+          <FormSection>
+            <Label>Bar Registration Number:</Label>
+            <Input
+              type="text"
+              name="barRegistrationNumber"
+              value={formData.barRegistrationNumber}
+              onChange={handleChange}
+              required
+            />
+          </FormSection>
 
-        <FormSection>
-          <Label>Name:</Label>
-          <Input type="text" name="username" value={formData.username} onChange={handleChange} required />
-        </FormSection>
+          <FormSection>
+            <Label>Name:</Label>
+            <Input type="text" name="username" value={formData.username} onChange={handleChange} required />
+          </FormSection>
 
-        <FormSection>
-          <Label>Date of Birth:</Label>
-          <Input type="date" name="dateOfBirth" value={formData.dateOfBirth} onChange={handleChange} required />
-        </FormSection>
+          <FormSection>
+            <Label>Date of Birth:</Label>
+            <Input type="date" name="dateOfBirth" value={formData.dateOfBirth} onChange={handleChange} required />
+          </FormSection>
 
-        <FormSection>
-          <Label>Gender:</Label>
-          <RadioWrapper>
-            <RadioLabel>
-              <input
-                type="radio"
-                name="gender"
-                value="male"
-                checked={formData.gender === 'male'}
-                onChange={handleChange}
-                required
-              />
-              Male
-            </RadioLabel>
-            <RadioLabel>
-              <input
-                type="radio"
-                name="gender"
-                value="female"
-                checked={formData.gender === 'female'}
-                onChange={handleChange}
-                required
-              />
-              Female
-            </RadioLabel>
-            <RadioLabel>
-              <input
-                type="radio"
-                name="gender"
-                value="other"
-                checked={formData.gender === 'other'}
-                onChange={handleChange}
-                required
-              />
-              Other
-            </RadioLabel>
-          </RadioWrapper>
-        </FormSection>
+          <FormSection>
+            <Label>Gender:</Label>
+            <RadioWrapper>
+              <RadioLabel>
+                <input
+                  type="radio"
+                  name="gender"
+                  value="male"
+                  checked={formData.gender === 'male'}
+                  onChange={handleChange}
+                  required
+                />
+                Male
+              </RadioLabel>
+              <RadioLabel>
+                <input
+                  type="radio"
+                  name="gender"
+                  value="female"
+                  checked={formData.gender === 'female'}
+                  onChange={handleChange}
+                  required
+                />
+                Female
+              </RadioLabel>
+              <RadioLabel>
+                <input
+                  type="radio"
+                  name="gender"
+                  value="other"
+                  checked={formData.gender === 'other'}
+                  onChange={handleChange}
+                  required
+                />
+                Other
+              </RadioLabel>
+            </RadioWrapper>
+          </FormSection>
 
-        <FormSection>
+          <FormSection>
             <Label>Types of Cases Dealt With:</Label>
             <Input
               type="text"
@@ -181,66 +243,91 @@ const Signup2 = () => {
             />
           </FormSection>
 
+          <FormSection>
+            <Label>Type of Court:</Label>
+            <RadioWrapper>
+              <RadioLabel>
+                <input
+                  type="radio"
+                  name="courtType"
+                  value="district"
+                  checked={formData.courtType === 'district'}
+                  onChange={handleChange}
+                  required
+                />
+                District
+              </RadioLabel>
+              <RadioLabel>
+                <input
+                  type="radio"
+                  name="courtType"
+                  value="highCourt"
+                  checked={formData.courtType === 'highCourt'}
+                  onChange={handleChange}
+                  required
+                />
+                High Court
+              </RadioLabel>
+            </RadioWrapper>
+          </FormSection>
 
-        <FormSection>
-          <Label>Type of Court:</Label>
-          <RadioWrapper>
-            <RadioLabel>
-              <input
-                type="radio"
-                name="courtType"
-                value="district"
-                checked={formData.courtType === 'district'}
-                onChange={handleChange}
-                required
-              />
-              District
-            </RadioLabel>
-            <RadioLabel>
-              <input
-                type="radio"
-                name="courtType"
-                value="highCourt"
-                checked={formData.courtType === 'highCourt'}
-                onChange={handleChange}
-                required
-              />
-              High Court
-            </RadioLabel>
-          </RadioWrapper>
-        </FormSection>
+          <FormSection>
+            <Label>Mobile Number:</Label>
+            <Input
+              type="tel"
+              name="mobileNumber"
+              pattern="[0-9]{10}"
+              value={formData.mobileNumber}
+              onChange={handleChange}
+              required
+            />
+          </FormSection>
 
-        <FormSection>
-          <Label>Mobile Number:</Label>
-          <Input
-            type="tel"
-            name="mobileNumber"
-            pattern="[0-9]{10}"
-            value={formData.mobileNumber}
-            onChange={handleChange}
-            required
-          />
-        </FormSection>
+          <FormSection>
+            <Label>Password:</Label>
+            <Input
+              type={showPassword ? 'text' : 'password'}
+              name="password"
+              value={formData.password}
+              onChange={handleChange}
+              required
+            />
+            <EyeIcon onClick={handleTogglePassword}>
+              👁️
+            </EyeIcon>
+          </FormSection>
 
-        <FormSection>
-          <Label>Password:</Label>
-          <Input type="password" name="password" value={formData.password} onChange={handleChange} required />
-        </FormSection>
+          <FormSection>
+            <Label>Email:</Label>
+            <Input
+              type="email"
+              name="email"
+              value={formData.email}
+              onChange={handleChange}
+              required
+            />
+          </FormSection>
 
-        <FormSection>
-          <Label>Confirm Password:</Label>
-          <Input
-            type="password"
-            name="confirmPassword"
-            value={formData.confirmPassword}
-            onChange={handleChange}
-            required
-          />
-        </FormSection>
+          <FormSection>
+            <Label>OTP:</Label>
+            <Input
+              type="text"
+              name="otp"
+              value={formData.otp}
+              onChange={handleChange}
+              placeholder="Enter OTP"
+              required
+            />
+            <Button type="button" onClick={handleGenerateOTP}>
+              Generate OTP
+            </Button>
+          </FormSection>
 
-        <SubmitButton type="submit" >Submit</SubmitButton>
-      </form>
-    </RegistrationFormWrapper>
+          {error && <ErrorMessage>{error}</ErrorMessage>}
+
+          <SubmitButton type="submit">Submit</SubmitButton>
+        </form>
+      </RegistrationFormWrapper>
     </>
   );
 };

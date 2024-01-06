@@ -80,7 +80,7 @@ const Signup3 = () => {
     e.preventDefault();
 
     try {
-      const response = await axios.post('http://localhost:5000/api/register', formData);
+      const response = await axios.post('http://localhost:5000/api/register3', formData);
       console.log(response.data);
     } catch (error) {
       console.error('Error during registration:', error);

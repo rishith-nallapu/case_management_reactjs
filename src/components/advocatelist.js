@@ -3,6 +3,7 @@ import styled from 'styled-components';
 import axios from 'axios';
 import Navbar from './Navbar';
 
+
 const AdvocateBox = styled.div`
   border: 2px solid black;
   padding: 20px;
@@ -42,40 +43,63 @@ const AdvocatesList = ({ onSelectAdvocate }) => {
     fetchAdvocates();
   }, []);
 
-  const handleSelectAdvocate = (advocate) => {
-    // Call the onSelectAdvocate prop with the selected advocate's information
-    onSelectAdvocate({
-      username: advocate.username,
-      state: advocate.state,
-      mobileNumber: advocate.mobileNumber
-    });
+  const handleSelectAdvocate = async (advocate) => {
+    try {
+      // Fetch the client details from the users collection
+      const clientDetailsResponse = await axios.get(`http://localhost:5000/api/users/${advocate.userId}`); // Replace with your API endpoint
+
+      // Check if client details are available
+      if (clientDetailsResponse.data.success) {
+        const clientDetails = clientDetailsResponse.data.user;
+        
+
+        // Combine advocate and client details
+        const combinedDetails = {
+          advocate: {
+            username: advocate.username,
+            yearsOfExperience: advocate.yearsOfExperience,
+            casesDealtWith: advocate.casesDealtWith,
+            state: advocate.state,
+          },
+          client: clientDetails,
+        };
+
+        // Call the onSelectAdvocate prop with the combined details
+        onSelectAdvocate(combinedDetails);
+      } else {
+        console.error('Error fetching client details:', clientDetailsResponse.data.message);
+      }
+    } catch (error) {
+      console.error('Error selecting advocate:', error);
+    }
   };
 
   return (
     <div>
       <Navbar />
       <Info>
-      
-      {advocates.map((advocate) => (
-        <AdvocateBox key={advocate._id}>
-          <p>
-            <strong>Name: </strong> {advocate.username}
-          </p>
-          <p>
-            <strong>Years of Experience: </strong> {advocate.yearsOfExperience}
-          </p>
-          <p>
-            <strong>Cases Dealt With: </strong> {advocate.casesDealtWith}
-          </p>
-          <p>
-            <strong>State: </strong> {advocate.state}
-          </p>   <br />
-          <Button onClick={() => handleSelectAdvocate(advocate)}>Choose</Button>
-        </AdvocateBox>
-      ))}
+        {advocates.map((advocate) => (
+          <AdvocateBox key={advocate._id}>
+            <p>
+              <strong>Name: </strong> {advocate.username}
+            </p>
+            <p>
+              <strong>Years of Experience: </strong> {advocate.yearsOfExperience}
+            </p>
+            <p>
+              <strong>Cases Dealt With: </strong> {advocate.casesDealtWith}
+            </p>
+            <p>
+              <strong>State: </strong> {advocate.state}
+            </p> <br />
+            <Button onClick={() => handleSelectAdvocate(advocate)}>Choose</Button>
+          </AdvocateBox>
+        ))}
       </Info>
     </div>
   );
 };
 
 export default AdvocatesList;
+
+

@@ -64,7 +64,7 @@ const ContentBelow = styled.div`
   padding: 20px;
 `;
 
-const Navbar = ({children}) => {
+const Navbar2 = ({children}) => {
   
   return (
     <>
@@ -108,4 +108,4 @@ const Navbar = ({children}) => {
   );
 };
 
-export default Navbar;
+export default Navbar2;
