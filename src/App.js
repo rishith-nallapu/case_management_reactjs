@@ -21,6 +21,8 @@ import Enteradvocate from './components/Enteradvocate';
 import New from './components/New';
 import CaseFiling from './components/Casefiling';
 import ClientsList from './components/Clientslist';
+import CasesList from './components/caseslist';
+
 
 function App() {
   return (
@@ -46,6 +48,8 @@ function App() {
         <Route path="/new" element={<New />} />
         <Route path="/casefiling" element={<CaseFiling/>} />
         <Route path="/clientslist" element={<ClientsList/>} />
+        <Route path="/caseslist" element={<CasesList/>} />
+        
 
       </Routes>
 

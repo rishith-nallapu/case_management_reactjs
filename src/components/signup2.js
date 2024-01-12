@@ -64,6 +64,16 @@ const SubmitButton = styled.button`
   border-radius: 10px;
 `;
 
+const StyledSelect = styled.select`
+  width: 100%;
+  padding: 8px;
+  margin-bottom: 16px;
+  border-radius: 5px;
+  border: 1px solid #ccc;
+`;
+
+
+
 const Button = styled.button`
   background-color: #4caf50;
   color: white;
@@ -82,6 +92,7 @@ const Signup2 = () => {
   const [showPassword, setShowPassword] = useState(false);
   const [formData, setFormData] = useState({
     state: '',
+    district: '',
     barRegistrationNumber: '',
     username: '',
     dateOfBirth: '',
@@ -159,6 +170,49 @@ const Signup2 = () => {
           <FormSection>
             <Label>State:</Label>
             <Input type="text" name="state" value={formData.state} onChange={handleChange} required />
+          </FormSection>
+
+          <FormSection>
+            <Label>District</Label>
+            <StyledSelect
+              name="district"
+              value={formData.district}
+              onChange={handleChange}
+              required
+            >
+              <option value="">Select Districts</option>
+              <option value="adilabad">Adilabad</option>
+              <option value="bhadradri">Bhadradri</option>
+              <option value="hyderabad">Hyderabad</option>
+              <option value="jagitial">Jagitial</option>
+              <option value="jayashankar">Jayashankar</option>
+              <option value="jogulamba">Jogulamba</option>
+              <option value="kamareddy">Kamareddy</option>
+              <option value="karimnagar">Karimnagar</option>
+              <option value="khammam">Khammam</option>
+              <option value="komarambheem">Komaram Bheem</option>
+              <option value="mahabubabad">Mahabubabad</option>
+              <option value="mahabubnagar">Mahabubnagar</option>
+              <option value="mancherial">Mancherial</option>
+              <option value="medak">Medak</option>
+              <option value="medchal">Medchal</option>
+              <option value="nagarkurnool">Nagarkurnool</option>
+              <option value="nalgonda">Nalgonda</option>
+              <option value="nirmal">Nirmal</option>
+              <option value="nizamabad">Nizamabad</option>
+              <option value="peddapalli">Peddapalli</option>
+              <option value="rajanna">Rajanna</option>
+              <option value="rangareddy">Rangareddy</option>
+              <option value="sangareddy">Sangareddy</option>
+              <option value="siddipet">Siddipet</option>
+              <option value="suryapet">Suryapet</option>
+              <option value="vikarabad">Vikarabad</option>
+              <option value="wanaparthy">Wanaparthy</option>
+              <option value="warangalurban">Warangal Urban</option>
+              <option value="warangalrural">Warangal Rural</option>
+              <option value="yadadri">Yadadri</option>
+
+            </StyledSelect>
           </FormSection>
 
           <FormSection>
@@ -245,30 +299,17 @@ const Signup2 = () => {
 
           <FormSection>
             <Label>Type of Court:</Label>
-            <RadioWrapper>
-              <RadioLabel>
-                <input
-                  type="radio"
-                  name="courtType"
-                  value="district"
-                  checked={formData.courtType === 'district'}
-                  onChange={handleChange}
-                  required
-                />
-                District
-              </RadioLabel>
-              <RadioLabel>
-                <input
-                  type="radio"
-                  name="courtType"
-                  value="highCourt"
-                  checked={formData.courtType === 'highCourt'}
-                  onChange={handleChange}
-                  required
-                />
-                High Court
-              </RadioLabel>
-            </RadioWrapper>
+            <StyledSelect
+              name="courtType"
+              value={formData.courtType}
+              onChange={handleChange}
+              required
+            >
+              <option value="">Select Court Type</option>
+              <option value="district">District Court</option>
+              <option value="sessions">Sessions Court</option>
+              <option value="high">High Court</option>
+            </StyledSelect>
           </FormSection>
 
           <FormSection>

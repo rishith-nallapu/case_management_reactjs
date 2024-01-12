@@ -3,8 +3,8 @@ import styled from 'styled-components';
 import { Link } from 'react-router-dom';
 
 const AppContainer = styled.div`
-background: linear-gradient(to right, #08203e, #557c93);
-background-size: cover;
+  background: linear-gradient(to right, #08203e, #557c93);
+  background-size: cover;
   background-position: center;
   min-height: 100vh;
   display: flex;
@@ -13,7 +13,7 @@ background-size: cover;
 `;
 
 const SignupContainer = styled.div`
-background-color: #F2F3F4;
+  background-color: #f2f3f4;
   padding: 20px;
   border-radius: 15px;
   width: 350px;
@@ -31,7 +31,7 @@ const FormGroup = styled.div`
 `;
 
 const Label = styled.label`
-font-weight:600;
+  font-weight: 600;
   display: block;
   margin-bottom: 5px;
 `;
@@ -63,8 +63,8 @@ const Button = styled.button`
   border: none;
   border-radius: 10px;
   cursor: pointer;
-  &:hover{
-    background-color:#6F00FF;
+  &:hover {
+    background-color: #6f00ff;
   }
 `;
 
@@ -78,12 +78,6 @@ const Login = () => {
     setShowPassword(!showPassword);
   };
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    console.log('Username:', username);
-    console.log('Password:', password);
-    // Add signup logic here
-  };
   const handleLogin = async () => {
     try {
       const response = await fetch('http://localhost:5000/api/login', {
@@ -93,10 +87,11 @@ const Login = () => {
         },
         body: JSON.stringify({ username, password }),
       });
-
+  
       const data = await response.json();
-
+  
       if (data.success) {
+        // Token is already set as a cookie in the response headers
         // Redirect or perform actions upon successful login
         window.location.href = '/Navbar'; // Replace with your actual route
       } else {
@@ -107,14 +102,13 @@ const Login = () => {
     }
   };
 
-
   return (
     <AppContainer>
       <SignupContainer>
         <h2>Login</h2>
         <br />
 
-        <Form onSubmit={handleSubmit}>
+        <Form>
           <FormGroup>
             <Label htmlFor="username">Username:</Label>
             <Input
@@ -142,7 +136,9 @@ const Login = () => {
             </PasswordContainer>
           </FormGroup>
 
-          <Button type="submit" onClick={handleLogin}>Login</Button>
+          <Button type="button" onClick={handleLogin}>
+            Login
+          </Button>
         </Form>
         {error && <p style={{ color: 'red' }}>{error}</p>}
         <br />
