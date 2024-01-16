@@ -6,7 +6,7 @@ import advocateImage from './advocate.png';
 import registrarImage from './clerk.png';
 
 const LandingContainer = styled.div`
-background-color:#1A1110;
+background-color:#212529;
 background-size: cover;
   height: 100vh;
   display: flex;
@@ -18,12 +18,12 @@ const Column = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
-  margin: 50px;
+  margin: 70px;
 `;
 
 const Image = styled.img`
-  width: 120px;
-  height: 120px;
+  width: 100px;
+  height: 100px;
   object-fit: cover;
   border-radius: 50%;
   margin-bottom: 20px;

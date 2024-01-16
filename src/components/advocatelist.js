@@ -3,7 +3,6 @@ import styled from 'styled-components';
 import axios from 'axios';
 import Navbar from './Navbar';
 
-
 const AdvocateBox = styled.div`
   border: 2px solid black;
   padding: 20px;
@@ -24,10 +23,48 @@ const Button = styled.button`
   cursor: pointer;
   border: none;
   border-radius: 5px;
+  &:hover{
+    background-color:red;
+  }
 `;
 
-const AdvocatesList = ({ onSelectAdvocate }) => {
+const ModalOverlay = styled.div`
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+`;
+
+const Modal = styled.div`
+  background-color: #fff;
+  padding: 20px;
+  border-radius: 8px;
+`;
+
+const FormGroup = styled.div`
+  margin-bottom: 15px;
+`;
+
+const Input = styled.input`
+  padding: 8px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+`;
+
+const AdvocatesList = () => {
   const [advocates, setAdvocates] = useState([]);
+  const [selectedAdvocate, setSelectedAdvocate] = useState(null);
+  const [formData, setFormData] = useState({
+    username: '',
+    email: '',
+    caseOverview: '',
+  });
+  const [showModal, setShowModal] = useState(false);
 
   useEffect(() => {
     // Fetch the list of advocates from your API
@@ -43,34 +80,45 @@ const AdvocatesList = ({ onSelectAdvocate }) => {
     fetchAdvocates();
   }, []);
 
-  const handleSelectAdvocate = async (advocate) => {
+  const handleSelectAdvocate = (advocate) => {
+    setSelectedAdvocate(advocate);
+    setShowModal(true);
+  };
+
+  const handleFormChange = (e) => {
+    setFormData({
+      ...formData,
+      [e.target.name]: e.target.value,
+    });
+  };
+
+  const handleFormSubmit = async (e) => {
+    e.preventDefault();
+
     try {
-      // Fetch the client details from the users collection
-      const clientDetailsResponse = await axios.get(`http://localhost:5000/api/users/${advocate.userId}`); // Replace with your API endpoint
+      // Save client details to the clientslist collection
+      const response = await axios.post('http://localhost:5000/api/clientslist', {
+        advocateUsername: selectedAdvocate.username,
+        clientUsername: formData.username,
+        clientEmail: formData.email,
+        caseOverview: formData.caseOverview,
+      });
 
-      // Check if client details are available
-      if (clientDetailsResponse.data.success) {
-        const clientDetails = clientDetailsResponse.data.user;
-        
-
-        // Combine advocate and client details
-        const combinedDetails = {
-          advocate: {
-            username: advocate.username,
-            yearsOfExperience: advocate.yearsOfExperience,
-            casesDealtWith: advocate.casesDealtWith,
-            state: advocate.state,
-          },
-          client: clientDetails,
-        };
-
-        // Call the onSelectAdvocate prop with the combined details
-        onSelectAdvocate(combinedDetails);
+      if (response.data.success) {
+        console.log('Client details saved successfully.');
+        // Optionally, you can reset the form and selected advocate state here
+        setFormData({
+          username: '',
+          email: '',
+          caseOverview: '',
+        });
+        setSelectedAdvocate(null);
+        setShowModal(false);
       } else {
-        console.error('Error fetching client details:', clientDetailsResponse.data.message);
+        console.error('Error saving client details:', response.data.message);
       }
     } catch (error) {
-      console.error('Error selecting advocate:', error);
+      console.error('Error saving client details:', error);
     }
   };
 
@@ -95,11 +143,53 @@ const AdvocatesList = ({ onSelectAdvocate }) => {
             <Button onClick={() => handleSelectAdvocate(advocate)}>Choose</Button>
           </AdvocateBox>
         ))}
+
+        {/* Modal for entering client details */}
+        {showModal && selectedAdvocate && (
+          <ModalOverlay>
+            <Modal>
+              <form onSubmit={handleFormSubmit}>
+                <FormGroup>
+                  <label htmlFor="username">Your Registered Username:</label>
+                  <Input
+                    type="text"
+                    id="username"
+                    name="username"
+                    value={formData.username}
+                    onChange={handleFormChange}
+                    required
+                  />
+                </FormGroup>
+                <FormGroup>
+                  <label htmlFor="email">Your Registered Email:</label>
+                  <Input
+                    type="email"
+                    id="email"
+                    name="email"
+                    value={formData.email}
+                    onChange={handleFormChange}
+                    required
+                  />
+                </FormGroup>
+                <FormGroup>
+                  <label htmlFor="caseOverview">Case Overview:</label>
+                  <Input
+                    type="text"
+                    id="caseOverview"
+                    name="caseOverview"
+                    value={formData.caseOverview}
+                    onChange={handleFormChange}
+                    required
+                  />
+                </FormGroup>
+                <Button type="submit">Submit</Button>
+              </form>
+            </Modal>
+          </ModalOverlay>
+        )}
       </Info>
     </div>
   );
 };
 
 export default AdvocatesList;
-
-

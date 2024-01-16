@@ -1,5 +1,4 @@
 import React from 'react';
-import Navbar from './Navbar';
 import styled from 'styled-components';
 
 const Info = styled.div`
@@ -8,6 +7,7 @@ border:2px solid black;
   margin-left:30px;
   margin-right:30px;
   padding: 20px;
+  color:#081c15;
 `;
 
 const Cont = styled.div`

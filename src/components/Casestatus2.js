@@ -1,10 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
 import axios from 'axios';
-import Navbar from './Navbar';
+import Navbar2 from './Navbar2';
 
 const StatusWrapper = styled.div`
-  margin: 20px  40px;
+  margin: 40px  40px;
   padding: 20px;
   border: 2px solid black;
   border-radius: 8px;
@@ -44,7 +44,7 @@ const InputBox = styled.input`
 `;
 
 
-const Casestatus = () => {
+const Casestatus2 = () => {
   const [progressLevel, setProgressLevel] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
   const [cnrNumber, setCnrNumber] = useState('');
@@ -78,7 +78,7 @@ const Casestatus = () => {
 
   return (
     <div>
-      <Navbar />
+      <Navbar2 />
    
         <StatusWrapper>
           <StatusTitle>Case Status:</StatusTitle>   <br />
@@ -112,4 +112,4 @@ const Casestatus = () => {
   );
 };
 
-export default Casestatus;
+export default Casestatus2;

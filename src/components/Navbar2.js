@@ -4,11 +4,11 @@ import { Link, useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 
 const NavbarContainer = styled.nav`
-  background-color: #3B3C36;
-  padding: 25px;
+  background-color: #212529;
+  padding: 28px;
   position: fixed;
   width: 100%;
-  height:75px;
+  height:85px;
   top: 0;
   left:0;
   z-index: 1000;
@@ -29,16 +29,15 @@ const NavbarItem = styled.li`
 const NavbarLink = styled(Link)`
   text-decoration: none;
   color: white;
-  font-weight: bold;
   font-size: 18px;
 
   &:hover {
-    color: #4caf50;
+    color:black;
     box-sizing:border-box;
     background-color:white;
     border:1px solid white;
     padding:8px;
-    border-radius:20px;
+    border-radius:8px;
   }
 `;
 
@@ -49,7 +48,7 @@ const Button = styled(Link)`
   color: #fff;
   padding: 5px 22px;
   border:none;
-  border-radius: 10px;
+  border-radius: 8px;
   cursor: pointer;
   text-decoration: none;
 
@@ -71,18 +70,18 @@ const Navbar2 = ({children}) => {
       <NavbarContainer>
         <NavbarList>
           <NavbarItem>
-            <NavbarLink to="/casestatus" >
+            <NavbarLink to="/casestatus2" >
               Case status
             </NavbarLink>
           </NavbarItem>
           <NavbarItem>
-          <NavbarLink to="/caseslist" >
-             Cases list
+          <NavbarLink to="/accepted" >
+             Accepted cases
             </NavbarLink>
           </NavbarItem>
           <NavbarItem>
-          <NavbarLink to="/casefiling" >
-             Case filing
+            <NavbarLink to="/uploads2" >
+              Documents
             </NavbarLink>
           </NavbarItem>
           <NavbarItem>
@@ -90,17 +89,7 @@ const Navbar2 = ({children}) => {
               Clientslist
             </NavbarLink>
           </NavbarItem>
-          <NavbarItem>
-          <NavbarLink to="/about" >
-              About
-            </NavbarLink>
-          </NavbarItem>
-          <NavbarItem>
-          <NavbarLink to="/contact" >
-              Contact Us
-            </NavbarLink>
-          </NavbarItem>
-          <Button to="/landing">Logout</Button>
+          <Button to="/">Logout</Button>
         </NavbarList>
       </NavbarContainer>
       <ContentBelow>{children}</ContentBelow>

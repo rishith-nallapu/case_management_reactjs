@@ -147,7 +147,8 @@ const Login2 = () => {
         </Form>
         {error && <p style={{ color: 'red' }}>{error}</p>}
         <br />
-        <Link to="/signup2">Don't have an account?</Link>
+        <Link to="/signup2">Don't have an account?</Link>  <br />
+        <Link to="/forgot1">Forgot password</Link>
       </SignupContainer>
     </AppContainer>
   );

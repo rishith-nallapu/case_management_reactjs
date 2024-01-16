@@ -8,6 +8,8 @@ border:2px solid black;
   margin-left:10px;
   margin-right:10px;
   padding: 15px;
+  color:#081c15;
+
 `;
 
 const Cont = styled.div`

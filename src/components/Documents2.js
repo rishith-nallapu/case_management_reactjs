@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import styled from 'styled-components';
-import Navbar from './Navbar';
+import Navbar2 from './Navbar2';
 
 const DocumentsContainer = styled.div`
   max-width: 600px;
@@ -161,7 +161,7 @@ const Documents = () => {
 
   return (
     <>
-      <Navbar />
+      <Navbar2 />
       <DocumentsContainer>
         <Title>Documents</Title>
         <UploadSection>

@@ -22,6 +22,13 @@ import New from './components/New';
 import CaseFiling from './components/Casefiling';
 import ClientsList from './components/Clientslist';
 import CasesList from './components/caseslist';
+import PendingCases from './components/Pendingcases';
+import SecondPage from './components/secondpage';
+import ForgotPassword from './components/forgotpassword1';
+import Casestatus2 from './components/Casestatus2';
+import Documents2 from './components/Documents2';
+import AcceptedComponent from './components/Acceptedcases';
+import IssuingDates from './components/Issuingdates';
 
 
 function App() {
@@ -43,13 +50,19 @@ function App() {
         <Route path="/about" element={<About />} />
         <Route path="/messages" element={<Messages />} />
         <Route path="/casestatus" element={<Casestatus />} />
+        <Route path="/casestatus2" element={<Casestatus2 />} />
         <Route path="/uploads" element={<Documents />} />
+        <Route path="/uploads2" element={<Documents2 />} />
         <Route path="/entry" element={<Enteradvocate />} />
         <Route path="/new" element={<New />} />
         <Route path="/casefiling" element={<CaseFiling/>} />
         <Route path="/clientslist" element={<ClientsList/>} />
         <Route path="/caseslist" element={<CasesList/>} />
-        
+        <Route path="/pendingcases" element={<PendingCases/>} />
+        <Route path="/secondpage" element={<SecondPage/>} />
+        <Route path="/forgot1" element={<ForgotPassword/>} />
+        <Route path="/accepted" element={<AcceptedComponent/>} />
+        <Route path="/dates" element={<IssuingDates/>} />
 
       </Routes>
 

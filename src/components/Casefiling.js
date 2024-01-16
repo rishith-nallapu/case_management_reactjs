@@ -1,10 +1,10 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
 import axios from 'axios';
-import Navbar2 from './Navbar2';
+import Navbar from './Navbar';
 
 const FormWrapper = styled.div`
-  max-width: 600px;
+  width: 700px;
   margin: 50px auto;
   padding: 20px;
   border: 2px solid black;
@@ -124,7 +124,7 @@ const CaseFiling = () => {
 
   return (
     <>
-      <Navbar2 />
+      <Navbar />
       <FormWrapper>
         <h2>Electronic Case Filing</h2> <br />
         <form onSubmit={handleSubmit}>
