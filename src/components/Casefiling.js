@@ -1,26 +1,41 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
+import { toast, ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 import axios from 'axios';
 import Navbar from './Navbar';
 
 const FormWrapper = styled.div`
-  width: 700px;
-  margin: 50px auto;
+  width: 800px;
+  margin: 10px auto;
   padding: 20px;
-  border: 2px solid black;
-  border-radius: 8px;
+  background-color: white;
 `;
 
-const FormSection = styled.div`
-  margin-bottom: 20px;
+const FormTitle = styled.h1`
+margin-top:30px;
+  color: black;
+  text-align:center;
+`;
+
+
+const FormBox = styled.div`
+  margin-bottom: 40px;
+  padding: 40px;
+  border: 2px solid white;
+  border-radius: 8px;
+  background-color:#212529 ;
 `;
 
 const Label = styled.label`
+font-size:18px;
   display: block;
   margin-bottom: 8px;
+  color: white;
 `;
 
 const StyledSelect = styled.select`
+font-size:16px;
   width: 100%;
   padding: 8px;
   margin-bottom: 16px;
@@ -29,36 +44,51 @@ const StyledSelect = styled.select`
 `;
 
 const Input = styled.input`
+font-size:17px;
   width: 100%;
   padding: 8px;
   margin-bottom: 16px;
+  border-radius: 5px;
+  border: 1px solid #ccc;
 `;
 
 const TextArea = styled.textarea`
   width: 100%;
   padding: 8px;
   margin-bottom: 16px;
+  border-radius: 5px;
+  border: 1px solid #ccc;
 `;
 
 const Select = styled.select`
   width: 100%;
   padding: 8px;
   margin-bottom: 16px;
+  border-radius: 5px;
+  border: 1px solid #ccc;
 `;
 
 const Button = styled.button`
-  background-color: #4caf50;
+  background-color: #3498db;
   color: white;
   padding: 10px 20px;
+  width:180px;
   cursor: pointer;
   border: none;
   border-radius: 5px;
+  font-size: 22px;
+  margin-bottom:80px;
+
+  &:hover {
+    background-color: green;
+  }
 `;
+
 
 const CaseFiling = () => {
   const [formData, setFormData] = useState({
     caseType: '',
-    district:'',
+    district: '',
     plaintiffName: '',
     plaintiffFatherOrMotherName: '',
     plaintiffAge: '',
@@ -68,10 +98,10 @@ const CaseFiling = () => {
     defendantFatherOrMotherName: '',
     defendantAge: '',
     defendantCaste: '',
-    dmobileNumber:'',
-    pmobileNumber:'',
-    plaintiffAddress:'',
-    defendantAddress:'',
+    dmobileNumber: '',
+    pmobileNumber: '',
+    plaintiffAddress: '',
+    defendantAddress: '',
     subject: '',
     filingDate: '',
   });
@@ -86,14 +116,14 @@ const CaseFiling = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-  
+
     try {
       // Make an API call to store the form data in the database
       await axios.post('http://localhost:5000/api/cases', formData);
-  
+
       console.log('Form submitted:', formData);
-      alert('Case filed successfully!');
-  
+      toast.success('Case filed successfully!', { autoClose: 3000 }); // 3000 milliseconds (3 seconds)
+
       // Reset the form after successful submission
       setFormData({
         caseType: '',
@@ -116,20 +146,20 @@ const CaseFiling = () => {
       });
     } catch (error) {
       console.error('Error filing case:', error);
-      alert('Error filing case. Please try again.');
+      toast.error('Error filing case. Please try again.', { autoClose: 3000 });
     }
   };
-  
+
 
 
   return (
     <>
       <Navbar />
+      <FormTitle>-- Electronic Case Filing --</FormTitle> <br />  <br />
       <FormWrapper>
-        <h2>Electronic Case Filing</h2> <br />
         <form onSubmit={handleSubmit}>
-          <FormSection>
-            <Label>District</Label>
+          <FormBox>
+            <Label>District:</Label>
             <StyledSelect
               name="district"
               value={formData.district}
@@ -168,19 +198,18 @@ const CaseFiling = () => {
               <option value="warangalrural">Warangal Rural</option>
               <option value="yadadri">Yadadri</option>
             </StyledSelect>
-          </FormSection>
-
-          <FormSection>
             <Label>Case Type:</Label>
-            <Select name="caseType" value={formData.caseType} onChange={handleChange} required>
+            <StyledSelect name="caseType" value={formData.caseType} onChange={handleChange} required>
               <option value="">Select Case Type</option>
               <option value="civil">Civil</option>
               <option value="criminal">Criminal</option>
               <option value="family">Family</option>
-            </Select>
-          </FormSection>
+            </StyledSelect>
+          </FormBox>
 
-          <FormSection>
+          <h2>Plaintiff  details:</h2> <br />
+
+          <FormBox>
             <Label>Plaintiff Name:</Label>
             <Input
               type="text"
@@ -190,9 +219,8 @@ const CaseFiling = () => {
               placeholder="Enter Plaintiff Name"
               required
             />
-          </FormSection>
+         
 
-          <FormSection>
             <Label>Plaintiff Father/Mother Name:</Label>
             <Input
               type="text"
@@ -202,9 +230,7 @@ const CaseFiling = () => {
               placeholder="Enter Father/Mother Name"
               required
             />
-          </FormSection>
 
-          <FormSection>
             <Label>Plaintiff Address:</Label>
             <TextArea
               name="plaintiffAddress"
@@ -214,9 +240,7 @@ const CaseFiling = () => {
               rows="4"
               required
             />
-          </FormSection>
 
-          <FormSection>
             <Label>Plaintiff Age:</Label>
             <Input
               type="number"
@@ -225,9 +249,7 @@ const CaseFiling = () => {
               onChange={handleChange}
               required
             />
-          </FormSection>
 
-          <FormSection>
             <Label>Plaintiff Caste:</Label>
             <Input
               type="text"
@@ -237,9 +259,7 @@ const CaseFiling = () => {
               placeholder="Enter Plaintiff Caste"
               required
             />
-          </FormSection>
 
-          <FormSection>
             <Label>Mobile Number:</Label>
             <Input
               type="tel"
@@ -249,9 +269,7 @@ const CaseFiling = () => {
               onChange={handleChange}
               required
             />
-          </FormSection>
 
-          <FormSection>
             <Label>Plaintiff Advocate:</Label>
             <Input
               type="text"
@@ -261,9 +279,11 @@ const CaseFiling = () => {
               placeholder="Enter Plaintiff Advocate"
               required
             />
-          </FormSection>
+          </FormBox>
 
-          <FormSection>
+          <h2>Defendant  details:</h2> <br />
+
+          <FormBox>
             <Label>Defendant Name:</Label>
             <Input
               type="text"
@@ -273,8 +293,6 @@ const CaseFiling = () => {
               placeholder="Enter Defendant Name"
               required
             />
-          </FormSection>
-          <FormSection>
             <Label>Defendant Father/Mother Name:</Label>
             <Input
               type="text"
@@ -284,9 +302,7 @@ const CaseFiling = () => {
               placeholder="Enter Father/Mother Name"
               required
             />
-          </FormSection>
 
-          <FormSection>
             <Label>Defendant Address:</Label>
             <TextArea
               name="defendantAddress"
@@ -296,9 +312,7 @@ const CaseFiling = () => {
               rows="4"
               required
             />
-          </FormSection>
-
-          <FormSection>
+         
             <Label>Defendant Age:</Label>
             <Input
               type="number"
@@ -307,9 +321,7 @@ const CaseFiling = () => {
               onChange={handleChange}
               required
             />
-          </FormSection>
-
-          <FormSection>
+          
             <Label>Defendant Caste:</Label>
             <Input
               type="text"
@@ -319,9 +331,7 @@ const CaseFiling = () => {
               placeholder="Enter defendant Caste"
               required
             />
-          </FormSection>
-
-          <FormSection>
+          
             <Label>Mobile Number:</Label>
             <Input
               type="tel"
@@ -331,9 +341,9 @@ const CaseFiling = () => {
               onChange={handleChange}
               required
             />
-          </FormSection>
+          </FormBox>
 
-          <FormSection>
+          <FormBox>
             <Label>Subject</Label>
             <TextArea
               name="subject"
@@ -343,9 +353,7 @@ const CaseFiling = () => {
               rows="4"
               required
             />
-          </FormSection>
-
-          <FormSection>
+         
             <Label>Filing Date:</Label>
             <Input
               type="date"
@@ -354,11 +362,12 @@ const CaseFiling = () => {
               onChange={handleChange}
               required
             />
-          </FormSection>
+          </FormBox>
 
           <Button type="submit">File Case</Button>
         </form>
       </FormWrapper>
+      <ToastContainer />
     </>
   );
 };

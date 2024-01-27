@@ -1,6 +1,6 @@
-import React, { useState } from 'react';
+import React, { useState} from 'react';
 import styled from 'styled-components';
-import { Link } from 'react-router-dom';
+import { Link,useNavigate } from 'react-router-dom';
 
 const AppContainer = styled.div`
   background: linear-gradient(to right, #08203e, #557c93);
@@ -13,11 +13,12 @@ const AppContainer = styled.div`
 `;
 
 const SignupContainer = styled.div`
-  background-color: #f2f3f4;
+  background: rgba(255, 255, 255, 0.6); 
   padding: 20px;
-  border-radius: 15px;
+  border-radius: 8px;
   width: 350px;
   text-align: center;
+  backdrop-filter: blur(2px);
 `;
 
 const Form = styled.form`
@@ -77,6 +78,7 @@ const Login = () => {
   const handlePasswordVisibility = () => {
     setShowPassword(!showPassword);
   };
+  const navigate = useNavigate();
 
   const handleLogin = async () => {
     try {
@@ -87,13 +89,15 @@ const Login = () => {
         },
         body: JSON.stringify({ username, password }),
       });
-  
+
       const data = await response.json();
-  
+
       if (data.success) {
-        // Token is already set as a cookie in the response headers
-        // Redirect or perform actions upon successful login
-        window.location.href = '/Navbar'; // Replace with your actual route
+        // Retrieve username from the server (assuming it's included in the response)
+        const { username } = data;
+
+        // Pass the username to the Navbar component
+        navigate('/Navbar', { state: { username } });
       } else {
         setError(data.message);
       }
@@ -101,6 +105,7 @@ const Login = () => {
       console.error('Error during login:', error);
     }
   };
+
 
   return (
     <AppContainer>

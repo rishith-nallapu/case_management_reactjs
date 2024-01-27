@@ -32,12 +32,15 @@ const Input = styled.input`
 `;
 
 const Button = styled.button`
-  background-color: #4caf50;
+  background-color: #007bff;
   color: white;
   padding: 10px 20px;
   cursor: pointer;
   border: none;
   border-radius: 5px;
+&:hover{
+    background-color:#4caf50;
+  }  
 `;
 
 const StyledSelect = styled.select`
@@ -58,22 +61,20 @@ const CasesList = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-  
+
     try {
-      // Make an API call to fetch cases for the entered district
-      const response = await axios.get(`http://localhost:5000/api/cases?district=${district}`);
-  
-      // Filter out cases that already have a CNR number
-      const filteredCases = response.data.filter((caseItem) => !caseItem.cnrNumber);
-  
-      // Update the cases state with the filtered data
-      setCases(filteredCases);
+      // Make an API call to fetch cases for the entered district with count equal to 1
+      const response = await axios.get(
+        `http://localhost:5000/api/cases?district=${district}&count=1`
+      );
+
+      // Update the cases state with the fetched data
+      setCases(response.data);
     } catch (error) {
       console.error('Error fetching cases:', error);
       // Handle error fetching cases
     }
   };
-  
 
   const handleGenerateCNR = async (caseId) => {
     try {
@@ -82,9 +83,11 @@ const CasesList = () => {
 
       // Update the cases state after successful CNR generation
       setCases((prevCases) => {
-        // Find the case by caseId and update its cnrNumber
+        // Find the case by caseId and update its cnrNumber and count
         const updatedCases = prevCases.map((caseItem) =>
-          caseItem._id === caseId ? { ...caseItem, cnrNumber: response.data.cnrNumber } : caseItem
+          caseItem._id === caseId
+            ? { ...caseItem, cnrNumber: response.data.cnrNumber, count: 2 }
+            : caseItem
         );
         return updatedCases;
       });
@@ -96,6 +99,8 @@ const CasesList = () => {
       // Handle error generating CNR
     }
   };
+
+
 
   return (
     <>
@@ -146,6 +151,7 @@ const CasesList = () => {
             <Button type="submit">Submit</Button>
           </Form>
 
+
           {cases.length > 0 && (
             <div>
               <br />
@@ -153,7 +159,8 @@ const CasesList = () => {
 
               {cases.map((caseItem) => (
                 <AdvocateBox key={caseItem._id}>
-                  <strong>{caseItem.plaintiffName}</strong> vs <strong>{caseItem.defendantName}</strong>
+                  <strong>{caseItem.plaintiffName}</strong> vs{' '}
+                  <strong>{caseItem.defendantName}</strong>
                   <p>
                     <strong>Subject:</strong> {caseItem.subject}
                   </p>
@@ -163,11 +170,7 @@ const CasesList = () => {
                   <p>
                     <strong>Filing Date:</strong> {caseItem.filingDate}
                   </p>
-                  {caseItem.cnrNumber ? (
-                    <p>
-                      <strong>CNR Number:</strong> {caseItem.cnrNumber}
-                    </p>
-                  ) : (
+                  {caseItem.count === 1 && (
                     <div>
                       <p>No CNR assigned</p>
                       <Button onClick={() => handleGenerateCNR(caseItem._id)}>Generate CNR</Button>
@@ -185,3 +188,5 @@ const CasesList = () => {
 };
 
 export default CasesList;
+
+

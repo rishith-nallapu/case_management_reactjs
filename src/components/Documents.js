@@ -2,6 +2,9 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import styled from 'styled-components';
 import Navbar from './Navbar';
+import { toast, ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+
 
 const DocumentsContainer = styled.div`
   max-width: 600px;
@@ -110,11 +113,12 @@ const Documents = () => {
           'Content-Type': 'multipart/form-data',
         },
       });
-      alert('File uploaded successfully!');
+      toast.success('File uploaded successfully!');
+
       fetchFiles(); // Refresh the file list after upload
     } catch (error) {
       console.error('Error uploading file:', error);
-      alert('Error uploading file. Please try again.'); // Provide a user-friendly error message
+      toast.error('Error uploading file. Please try again.');
     } finally {
       setLoading(false);
     }
@@ -140,7 +144,7 @@ const Documents = () => {
       setLoading(false);
     }
   };
-  
+
   const handleDelete = async (fileId) => {
     try {
       setLoading(true);
@@ -180,7 +184,7 @@ const Documents = () => {
           <UploadButton onClick={handleUpload} disabled={loading}>
             {loading ? 'Uploading...' : 'Upload'}
           </UploadButton>
-          </UploadSection>
+        </UploadSection>
         {loading && <p>Loading...</p>}
         {fileList.length === 0 ? (
           <p>No files available.</p>
@@ -190,13 +194,15 @@ const Documents = () => {
               <FileListItem key={file._id}>
                 <span onClick={() => window.open(`http://localhost:5000/uploads/${file.filename}`, '_blank')}>
                   {file.filename} ~~~~
-                </span> 
-                <button style={{margin: '0px' }} onClick={() => handleDelete(file._id)}>Delete</button>
+                </span>
+                <button style={{ margin: '0px' }} onClick={() => handleDelete(file._id)}>Delete</button>
               </FileListItem>
             ))}
           </FileList>
         )}
+        <ToastContainer />
       </DocumentsContainer>
+
     </>
   );
 };

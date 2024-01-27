@@ -45,6 +45,14 @@ const Input = styled.input`
   border: 1px solid #ccc;
 `;
 
+const StyledSelect = styled.select`
+font-size:15px;
+  padding: 8px;
+  margin-bottom: 10px;
+  border-radius: 5px;
+  border: 1px solid #ccc;
+`;
+
 const Button = styled.button`
   background-color: #4caf50;
   color: white;
@@ -139,8 +147,8 @@ const ForgotPassword = () => {
                 <br />
                 <form>
                     <FormSection>
-                        <label htmlFor="userType">Select User Type:</label>
-                        <select
+                        <label htmlFor="userType">Select User Type: </label>
+                        <StyledSelect
                             id="userType"
                             name="userType"
                             value={formData.userType}
@@ -149,7 +157,7 @@ const ForgotPassword = () => {
                             <option value="client">Client</option>
                             <option value="registrar">Registrar</option>
                             <option value="advocate">Advocate</option>
-                        </select>
+                        </StyledSelect>
                     </FormSection>
                     <FormSection>
                         <Label>Username:</Label>

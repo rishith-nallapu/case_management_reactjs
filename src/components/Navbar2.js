@@ -1,25 +1,26 @@
-// Navbar.js
 import React from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link, useNavigate, useLocation } from 'react-router-dom';
 import styled from 'styled-components';
+import law from './justice 2.jpeg';
+
 
 const NavbarContainer = styled.nav`
   background-color: #212529;
-  padding: 28px;
+  padding: 18px;
   position: fixed;
   width: 100%;
-  height:85px;
+  height: 85px;
   top: 0;
-  left:0;
   z-index: 1000;
 `;
+
 const NavbarList = styled.ul`
   list-style-type: none;
   margin: 0;
   padding: 0;
   display: flex;
-  justify-content:space-evenly;
-
+  justify-content: space-evenly;
+  align-items: center; /* Center vertically */
 `;
 
 const NavbarItem = styled.li`
@@ -32,39 +33,51 @@ const NavbarLink = styled(Link)`
   font-size: 18px;
 
   &:hover {
-    color:black;
-    box-sizing:border-box;
-    background-color:white;
-    border:1px solid white;
-    padding:8px;
-    border-radius:8px;
+    border-sizing: border-box;
+    padding: 8px;
+    border-radius: 8px;
+    background-color: white;
+    color: black;
   }
 `;
 
-const Button = styled(Link)`
-  width: 100px;
-  height:35px;
-  background-color: #4caf50;
-  color: #fff;
-  padding: 5px 22px;
-  border:none;
-  border-radius: 8px;
+const LogoContainer = styled.div`
+  display: flex;
+  align-items: center;
   cursor: pointer;
-  text-decoration: none;
-
-  &:hover{
-    background-color:red;
-    color:white;
-  }
 `;
 
-const ContentBelow = styled.div`
-  margin-top: 40px; 
+const LogoImage = styled.img`
+  width: 50px;
+  height: 50px;
+  object-fit: cover;
+  border-radius: 50%;
+  border: 2px solid white;
+  margin-right: 10px; 
+  margin-left:20px;
+`;
+
+const UserName = styled.span`
+  color: white;
+  font-size: 18px;
+  text-decoration: overline;
+
+`;
+
+const ContentBelowNavbar = styled.div`
+  margin-top: 60px;
   padding: 20px;
 `;
 
-const Navbar2 = ({children}) => {
-  
+const Navbar2 = ({ children }) => {
+  const navigate2 = useNavigate();
+  const location2 = useLocation();
+
+  const handleLogoClick = () => {
+    navigate2('/');
+  };
+  const userName = location2.state ? location2.state.username : null;
+
   return (
     <>
       <NavbarContainer>
@@ -75,8 +88,8 @@ const Navbar2 = ({children}) => {
             </NavbarLink>
           </NavbarItem>
           <NavbarItem>
-          <NavbarLink to="/accepted" >
-             Accepted cases
+            <NavbarLink to="/accepted" >
+              Accepted cases
             </NavbarLink>
           </NavbarItem>
           <NavbarItem>
@@ -85,14 +98,19 @@ const Navbar2 = ({children}) => {
             </NavbarLink>
           </NavbarItem>
           <NavbarItem>
-          <NavbarLink to="/clientslist" >
+            <NavbarLink to="/clientslist" >
               Clientslist
             </NavbarLink>
           </NavbarItem>
-          <Button to="/">Logout</Button>
+          <NavbarItem>
+            <LogoContainer onClick={handleLogoClick}>
+              <LogoImage src={law} alt="Logo" />   <br />
+              <UserName> {userName}</UserName>
+            </LogoContainer>
+          </NavbarItem>
         </NavbarList>
       </NavbarContainer>
-      <ContentBelow>{children}</ContentBelow>
+      <ContentBelowNavbar>{children}</ContentBelowNavbar>
     </>
   );
 };

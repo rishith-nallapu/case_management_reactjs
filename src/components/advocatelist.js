@@ -3,28 +3,50 @@ import styled from 'styled-components';
 import axios from 'axios';
 import Navbar from './Navbar';
 
-const AdvocateBox = styled.div`
-  border: 2px solid black;
-  padding: 20px;
-  margin-bottom: 20px;
+const Container = styled.div`
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 50px;
 `;
 
-const Info = styled.div`
-  border-sizing: border-box;
-  margin-left: 50px;
-  margin-right: 50px;
-  padding: 15px;
+const Table = styled.table`
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 20px;
+`;
+
+const TableHeader = styled.th`
+  border: 2px solid white;
+  padding: 18px;
+  color: #081c15;
+  text-align: center;
+  background-color: #212529;
+  color: white;
+`;
+
+const TableRow = styled.tr`
+  &:nth-child(even) {
+    background-color: white;
+  }
+`;
+
+const TableCell = styled.td`
+  border: 2px solid white;
+  color: white;
+  text-align: center;
+  background-color: #212529;
+  padding: 18px;
 `;
 
 const Button = styled.button`
   background-color: #4caf50;
   color: white;
-  padding: 10px 20px;
+  padding: 9px 14px;
   cursor: pointer;
   border: none;
-  border-radius: 5px;
-  &:hover{
-    background-color:red;
+  border-radius: 8px;
+  &:hover {
+    background-color: red;
   }
 `;
 
@@ -48,6 +70,19 @@ const Modal = styled.div`
 
 const FormGroup = styled.div`
   margin-bottom: 15px;
+`;
+
+const BackButton = styled.button`
+background-color: #4caf50;
+color: white;
+padding: 10px 12px;
+margin-left:20px;
+cursor: pointer;
+border: none;
+border-radius: 8px;
+&:hover {
+  background-color: red;
+}
 `;
 
 const Input = styled.input`
@@ -114,6 +149,7 @@ const AdvocatesList = () => {
         });
         setSelectedAdvocate(null);
         setShowModal(false);
+        window.location.reload(); // Refresh the page after submitting client details
       } else {
         console.error('Error saving client details:', response.data.message);
       }
@@ -122,27 +158,40 @@ const AdvocatesList = () => {
     }
   };
 
+  const handleBackButtonClick = () => {
+    setShowModal(false);
+  };
+
   return (
     <div>
       <Navbar />
-      <Info>
-        {advocates.map((advocate) => (
-          <AdvocateBox key={advocate._id}>
-            <p>
-              <strong>Name: </strong> {advocate.username}
-            </p>
-            <p>
-              <strong>Years of Experience: </strong> {advocate.yearsOfExperience}
-            </p>
-            <p>
-              <strong>Cases Dealt With: </strong> {advocate.casesDealtWith}
-            </p>
-            <p>
-              <strong>State: </strong> {advocate.state}
-            </p> <br />
-            <Button onClick={() => handleSelectAdvocate(advocate)}>Choose</Button>
-          </AdvocateBox>
-        ))}
+      <Container>
+        <Table>
+          <thead>
+            <TableRow>
+              <TableHeader>Name</TableHeader>
+              <TableHeader>Years of Experience</TableHeader>
+              <TableHeader>Cases Dealt With</TableHeader>
+              <TableHeader>District</TableHeader>
+              <TableHeader>State</TableHeader>
+              <TableHeader>Choose</TableHeader>
+            </TableRow>
+          </thead>
+          <tbody>
+            {advocates.map((advocate) => (
+              <TableRow key={advocate._id}>
+                <TableCell>{advocate.username}</TableCell>
+                <TableCell>{advocate.yearsOfExperience}</TableCell>
+                <TableCell>{advocate.casesDealtWith}</TableCell>
+                <TableCell>{advocate.district}</TableCell>
+                <TableCell>{advocate.state}</TableCell>
+                <TableCell>
+                  <Button onClick={() => handleSelectAdvocate(advocate)}>Choose</Button>
+                </TableCell>
+              </TableRow>
+            ))}
+          </tbody>
+        </Table>
 
         {/* Modal for entering client details */}
         {showModal && selectedAdvocate && (
@@ -183,11 +232,12 @@ const AdvocatesList = () => {
                   />
                 </FormGroup>
                 <Button type="submit">Submit</Button>
+                <BackButton onClick={handleBackButtonClick}>Back</BackButton>
               </form>
             </Modal>
           </ModalOverlay>
         )}
-      </Info>
+      </Container>
     </div>
   );
 };

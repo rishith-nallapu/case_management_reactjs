@@ -23,12 +23,15 @@ import CaseFiling from './components/Casefiling';
 import ClientsList from './components/Clientslist';
 import CasesList from './components/caseslist';
 import PendingCases from './components/Pendingcases';
-import SecondPage from './components/secondpage';
 import ForgotPassword from './components/forgotpassword1';
 import Casestatus2 from './components/Casestatus2';
 import Documents2 from './components/Documents2';
 import AcceptedComponent from './components/Acceptedcases';
 import IssuingDates from './components/Issuingdates';
+import Guide1 from './components/Guide1';
+import Guide2 from './components/Guide2';
+import Guide3 from './components/Guide3';
+import Pretrial from './components/Pretrial';
 
 
 function App() {
@@ -59,10 +62,13 @@ function App() {
         <Route path="/clientslist" element={<ClientsList/>} />
         <Route path="/caseslist" element={<CasesList/>} />
         <Route path="/pendingcases" element={<PendingCases/>} />
-        <Route path="/secondpage" element={<SecondPage/>} />
         <Route path="/forgot1" element={<ForgotPassword/>} />
         <Route path="/accepted" element={<AcceptedComponent/>} />
         <Route path="/dates" element={<IssuingDates/>} />
+        <Route path="/guide1" element={<Guide1/>} />
+        <Route path="/guide2" element={<Guide2/>} />
+        <Route path="/guide3" element={<Guide3/>} />
+        <Route path="/pretrial" element={<Pretrial/>} />
 
       </Routes>
 

@@ -2,6 +2,9 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import styled from 'styled-components';
 import Navbar2 from './Navbar2';
+import { toast, ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+
 
 const DocumentsContainer = styled.div`
   max-width: 600px;
@@ -110,11 +113,11 @@ const Documents = () => {
           'Content-Type': 'multipart/form-data',
         },
       });
-      alert('File uploaded successfully!');
+      toast.success('File uploaded successfully!');
       fetchFiles(); // Refresh the file list after upload
     } catch (error) {
       console.error('Error uploading file:', error);
-      alert('Error uploading file. Please try again.'); // Provide a user-friendly error message
+      toast.error('Error uploading file. Please try again.');
     } finally {
       setLoading(false);
     }
@@ -196,6 +199,7 @@ const Documents = () => {
             ))}
           </FileList>
         )}
+        <ToastContainer />
       </DocumentsContainer>
     </>
   );

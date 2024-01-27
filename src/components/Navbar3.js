@@ -1,25 +1,26 @@
-
 import React from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link, useNavigate, useLocation } from 'react-router-dom';
 import styled from 'styled-components';
+import law from './justice 2.jpeg';
+
 
 const NavbarContainer = styled.nav`
   background-color: #212529;
-  padding: 28px;
+  padding: 18px;
   position: fixed;
   width: 100%;
-  height:85px;
+  height: 85px;
   top: 0;
-  left:0;
   z-index: 1000;
 `;
+
 const NavbarList = styled.ul`
   list-style-type: none;
   margin: 0;
   padding: 0;
   display: flex;
-  justify-content:space-evenly;
-
+  justify-content: space-evenly;
+  align-items: center; /* Center vertically */
 `;
 
 const NavbarItem = styled.li`
@@ -32,67 +33,90 @@ const NavbarLink = styled(Link)`
   font-size: 18px;
 
   &:hover {
+    border-sizing: border-box;
+    padding: 8px;
+    border-radius: 8px;
+    background-color: white;
     color: black;
-    box-sizing:border-box;
-    background-color:white;
-    border:1px solid white;
-    padding:8px;
-    border-radius:8px;
   }
 `;
 
-const Button = styled(Link)`
-  width: 100px;
-  height:35px;
-  background-color: #4caf50;
-  color: #fff;
-  padding: 5px 22px;
-  border:none;
-  border-radius: 8px;
+const LogoContainer = styled.div`
+  display: flex;
+  align-items: center;
   cursor: pointer;
-  text-decoration: none;
-
-  &:hover{
-    background-color:red;
-    color:white;
-  }
 `;
 
-const ContentBelow = styled.div`
-  margin-top: 40px; 
+const LogoImage = styled.img`
+  width: 50px;
+  height: 50px;
+  object-fit: cover;
+  border-radius: 50%;
+  border: 2px solid white;
+  margin-right: 10px; 
+  margin-left:20px;
+`;
+
+const UserName = styled.span`
+  color: white;
+  font-size: 18px;
+  text-decoration: overline;
+
+`;
+
+const ContentBelowNavbar = styled.div`
+  margin-top: 60px;
   padding: 20px;
 `;
 
-const Navbar3 = ({children}) => {
-  
+const Navbar3 = ({ children }) => {
+  const navigate3 = useNavigate();
+  const location3 = useLocation();
+
+  const handleLogoClick = () => {
+    navigate3('/');
+  };
+  const userName = location3.state ? location3.state.username : null;
+
   return (
     <>
       <NavbarContainer>
         <NavbarList>
           <NavbarItem>
-          <NavbarLink to="/caseslist" >
-             Cases list
+            <NavbarLink to="/caseslist" >
+              Cases list
             </NavbarLink>
           </NavbarItem>
           <NavbarItem>
-          <NavbarLink to="/judgeslist" >
-             Judges list
+            <NavbarLink to="/judgeslist" >
+              Judges list
             </NavbarLink>
           </NavbarItem>
           <NavbarItem>
-          <NavbarLink to="/dates" >
+            <NavbarLink to="/dates" >
               Issuing dates
             </NavbarLink>
           </NavbarItem>
           <NavbarItem>
-          <NavbarLink to="/pendingcases" >
+            <NavbarLink to="/pendingcases" >
               Pending cases
             </NavbarLink>
           </NavbarItem>
-          <Button to="/">Logout</Button>
+          <NavbarItem>
+            <NavbarLink to="/pretrial" >
+              Pre-trial
+            </NavbarLink>
+          </NavbarItem>
+          <NavbarItem>
+            <LogoContainer onClick={handleLogoClick}>
+              <LogoImage src={law} alt="Logo" />   <br />
+
+              <UserName> {userName}</UserName>
+            </LogoContainer>
+          </NavbarItem>
         </NavbarList>
       </NavbarContainer>
-      <ContentBelow>{children}</ContentBelow>
+      <ContentBelowNavbar>{children}</ContentBelowNavbar>
     </>
   );
 };

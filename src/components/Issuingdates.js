@@ -2,12 +2,19 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import styled from 'styled-components';
 import Navbar3 from './Navbar3';
+import { toast, ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+
 
 const Container = styled.div`
   max-width: 400px;
   margin: auto;
-  padding: 20px;
-  margin-top: 20px;
+  background-color:#212529;
+  padding: 30px;
+  margin-top: 50px;
+  border:2px solid black;
+  border-radius:8px;
+  color:white;
 `;
 
 const Title = styled.h2`
@@ -34,6 +41,9 @@ const Button = styled.button`
   background-color: #007bff;
   color: #fff;
   cursor: pointer;
+  &:hover{
+    background-color:#4caf50;
+  }  
 `;
 
 const Alert = styled.div`
@@ -76,9 +86,13 @@ const IssuingDates = () => {
   };
 
   const handleAlert = () => {
-    // Your alert logic here
-    alert(alreadyIssued ? 'Already been issued!' : 'Issuing dates submitted successfully.');
+    if (alreadyIssued) {
+      toast.error('Already been issued!');
+    } else {
+      toast.success('Issuing dates submitted successfully.');
+    }
   };
+  
 
   useEffect(() => {
     if (submitted || alreadyIssued) {
@@ -123,11 +137,9 @@ const IssuingDates = () => {
           value={time}
           onChange={(e) => setTime(e.target.value)}
         />
-
         <Button onClick={handleSubmit}>Submit Issuing Dates</Button>
-
-        {/* Remove the static alert component */}
       </Container>
+      <ToastContainer />
     </div>
   );
 };

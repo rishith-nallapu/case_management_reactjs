@@ -1,10 +1,12 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate, useLocation } from 'react-router-dom';
 import styled from 'styled-components';
+import law from './justice 2.jpeg';
+
 
 const NavbarContainer = styled.nav`
   background-color: #212529;
-  padding: 28px;
+  padding: 18px;
   position: fixed;
   width: 100%;
   height: 85px;
@@ -18,6 +20,7 @@ const NavbarList = styled.ul`
   padding: 0;
   display: flex;
   justify-content: space-evenly;
+  align-items: center; /* Center vertically */
 `;
 
 const NavbarItem = styled.li`
@@ -30,62 +33,74 @@ const NavbarLink = styled(Link)`
   font-size: 18px;
 
   &:hover {
-    border-sizing:border-box;
-    padding:8px;
-    border-radius:8px;
-    background-color:white;
+    border-sizing: border-box;
+    padding: 8px;
+    border-radius: 8px;
+    background-color: white;
     color: black;
   }
 `;
 
-const Button = styled(Link)`
-  width: 100px;
-  height: 35px;
-  background-color: #4caf50;
-  color: #fff;
-  padding: 4px 22px;
-  border: none;
-  border-radius: 8px;
+const LogoContainer = styled.div`
+  display: flex;
+  align-items: center;
   cursor: pointer;
-  text-decoration: none;
+`;
 
-  &:hover {
-    background-color: red;
-    color: white;
-  }
+const LogoImage = styled.img`
+  width: 50px;
+  height: 50px;
+  object-fit: cover;
+  border-radius: 50%;
+  border: 2px solid white;
+  margin-right: 10px; 
+  margin-left:20px;
+`;
+
+const UserName = styled.span`
+  color: white;
+  font-size: 18px;
+  text-decoration: overline;
+
 `;
 
 const ContentBelowNavbar = styled.div`
-  margin-top: 60px; 
+  margin-top: 60px;
   padding: 20px;
 `;
 
 const Navbar = ({ children }) => {
+  const navigate = useNavigate();
+  const location = useLocation();
+
+  const handleLogoClick = () => {
+    navigate('/');
+  };
+  const userName = location.state ? location.state.username : null;
+
   return (
     <>
       <NavbarContainer>
         <NavbarList>
           <NavbarItem>
-            <NavbarLink to="/casestatus" >
-              Case status
-            </NavbarLink>
+            <NavbarLink to="/casestatus">Case status</NavbarLink>
           </NavbarItem>
           <NavbarItem>
-            <NavbarLink to="/uploads" >
-              Documents
-            </NavbarLink>
+            <NavbarLink to="/uploads">Documents</NavbarLink>
           </NavbarItem>
           <NavbarItem>
-            <NavbarLink to="/advocateslist" >
-              Advocates list
-            </NavbarLink>
+            <NavbarLink to="/advocateslist">Advocates list</NavbarLink>
           </NavbarItem>
           <NavbarItem>
-            <NavbarLink to="/casefiling" >
-              Case filing
-            </NavbarLink>
+            <NavbarLink to="/casefiling">Case filing</NavbarLink>
           </NavbarItem>
-          <Button to="/">Logout</Button>
+          <NavbarItem>
+            <LogoContainer onClick={handleLogoClick}>
+              <LogoImage src={law} alt="Logo" />   <br />
+              
+              <UserName> {userName}</UserName>
+            </LogoContainer>
+          </NavbarItem>
         </NavbarList>
       </NavbarContainer>
       <ContentBelowNavbar>{children}</ContentBelowNavbar>

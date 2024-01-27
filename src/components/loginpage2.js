@@ -1,11 +1,10 @@
-import React, { useState } from 'react';
+import React, { useState} from 'react';
 import styled from 'styled-components';
-import { Link } from 'react-router-dom';
+import { Link,useNavigate } from 'react-router-dom';
 
 const AppContainer = styled.div`
-// background-color:#1A1110;
-background: linear-gradient(to right, #08203e, #557c93);
-background-size: cover;
+  background: linear-gradient(to right, #08203e, #557c93);
+  background-size: cover;
   background-position: center;
   min-height: 100vh;
   display: flex;
@@ -14,11 +13,12 @@ background-size: cover;
 `;
 
 const SignupContainer = styled.div`
-background-color: #F2F3F4;
+  background: rgba(255, 255, 255, 0.6); 
   padding: 20px;
-  border-radius: 15px;
+  border-radius: 8px;
   width: 350px;
   text-align: center;
+  backdrop-filter: blur(2px);
 `;
 
 const Form = styled.form`
@@ -32,7 +32,7 @@ const FormGroup = styled.div`
 `;
 
 const Label = styled.label`
-font-weight:600;
+  font-weight: 600;
   display: block;
   margin-bottom: 5px;
 `;
@@ -64,8 +64,8 @@ const Button = styled.button`
   border: none;
   border-radius: 10px;
   cursor: pointer;
-  &:hover{
-    background-color:#6F00FF;
+  &:hover {
+    background-color: #6f00ff;
   }
 `;
 
@@ -78,13 +78,8 @@ const Login2 = () => {
   const handlePasswordVisibility = () => {
     setShowPassword(!showPassword);
   };
+  const navigate2 = useNavigate();
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    console.log('Username:', username);
-    console.log('Password:', password);
-    // Add signup logic here
-  };
   const handleLogin = async () => {
     try {
       const response = await fetch('http://localhost:5000/api/login3', {
@@ -98,8 +93,11 @@ const Login2 = () => {
       const data = await response.json();
 
       if (data.success) {
-        // Redirect or perform actions upon successful login
-        window.location.href = '/Navbar2'; // Replace with your actual route
+        // Retrieve username from the server (assuming it's included in the response)
+        const { username } = data;
+
+        // Pass the username to the Navbar component
+        navigate2('/Navbar2', { state: { username } });
       } else {
         setError(data.message);
       }
@@ -115,7 +113,7 @@ const Login2 = () => {
         <h2>Login</h2>
         <br />
 
-        <Form onSubmit={handleSubmit}>
+        <Form>
           <FormGroup>
             <Label htmlFor="username">Username:</Label>
             <Input
@@ -143,7 +141,9 @@ const Login2 = () => {
             </PasswordContainer>
           </FormGroup>
 
-          <Button type="submit" onClick={handleLogin}>Login</Button>
+          <Button type="button" onClick={handleLogin}>
+            Login
+          </Button>
         </Form>
         {error && <p style={{ color: 'red' }}>{error}</p>}
         <br />

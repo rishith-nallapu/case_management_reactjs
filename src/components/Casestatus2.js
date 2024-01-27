@@ -4,17 +4,20 @@ import axios from 'axios';
 import Navbar2 from './Navbar2';
 
 const StatusWrapper = styled.div`
-  margin: 40px  40px;
-  padding: 20px;
-  border: 2px solid black;
+  margin: 20px  70px;
+  padding: 30px;
+  border: 2px solid white;
+  background-color: #212529;
   border-radius: 8px;
 `;
 
 const StatusTitle = styled.h3`
+color:white;
   margin-bottom: 10px;
 `;
 
 const StatusText = styled.p`
+color:white;
   font-size: 16px;
   transition: opacity;
   opacity: ${(props) => (props.isLoading ? 0.8 : 1)};
@@ -23,7 +26,8 @@ const StatusText = styled.p`
 const AnimatedProgressBar = styled.div`
   width: 100%;
   height: 10px;
-  background-color: #f0f0f0;
+  border:1px solid white;
+  background-color:white;
   margin-bottom: 15px;
   border-radius: 10px;
   overflow: hidden;
@@ -32,8 +36,8 @@ const AnimatedProgressBar = styled.div`
 const ProgressBarLevel = styled.div`
   height: 100%;
   border-radius: 5px;
-  background-color: #007bff; /* Change the color as needed */
-  transition: width 0.5s; /* Add transition for smooth animation */
+  background: linear-gradient(to right, #d00000, #ffbe0b, #52b788); 
+  transition: width 0.5s; 
 `;
 
 const InputBox = styled.input`

@@ -10,8 +10,8 @@ const AppContainer = createGlobalStyle`
 `;
 
 const RegistrationFormWrapper = styled.div`
-  background-color: #f2f3f4;
-  max-width: 600px;
+background-color: #f2f3f4;
+max-width: 600px;
   margin: 50px auto;
   padding: 20px;
   border: 2px solid black;
