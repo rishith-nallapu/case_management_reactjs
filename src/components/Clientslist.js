@@ -1,13 +1,10 @@
-// clientsList.js
 import React, { useState } from 'react';
 import styled from 'styled-components';
 import axios from 'axios';
 import Navbar2 from './Navbar2';
 import { toast, ToastContainer } from 'react-toastify';
 
-
 const AdvocateBox = styled.div`
-  border: 2px solid black;
   padding: 20px;
   margin: 20px 60px;
   border-radius: 8px;
@@ -20,7 +17,7 @@ const Info = styled.div`
   background-color: #212529;
   border-radius: 8px;
   padding: 10px;
-  width:500px;
+  width: 500px;
   color: white;
 `;
 
@@ -50,7 +47,6 @@ const Input = styled.input`
   border-radius: 4px;
 `;
 
-
 const Button = styled.button`
   background-color: #007bff;
   color: white;
@@ -58,16 +54,69 @@ const Button = styled.button`
   cursor: pointer;
   border: none;
   border-radius: 5px;
-  margin: 5px 0px;
-  &:hover{
-    background-color:#4caf50;
+  margin: 5px 10px;
+  &:hover {
+    background-color: #4caf50;
   }
 `;
 
 const DeclineButton = styled(Button)`
   background-color: #dc3545;
-  border:2px solid white;
+  border: 2px solid white;
+`;
 
+const Table = styled.table`
+text-align:center;
+  width: 100%;
+  border-collapse: collapse;
+`;
+
+const TableRow = styled.tr`
+  &:nth-child(even) {
+    background-color: #f2f2f2;
+  }
+`;
+
+const TableHeader = styled.th`
+  border: 2px solid #212529;
+  padding: 8px;
+  background-color: #212529;
+  color: white;
+`;
+
+const TableCell = styled.td`
+  border: 2px solid #212529;
+  padding: 8px;
+`;
+
+const ModalOverlay = styled.div`
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+`;
+
+const Modal = styled.div`
+  background-color: #fff;
+  padding: 20px;
+  border-radius: 8px;
+`;
+
+const FormGroupModal = styled(FormGroup)`
+  margin-bottom: 0; 
+`;
+
+const ReasonInput = styled.textarea`
+  width: 300px;
+  height: 100px;
+  padding: 8px;
+  border: 2px solid black;
+  border-radius: 8px;
 `;
 
 const ClientsList = () => {
@@ -75,6 +124,9 @@ const ClientsList = () => {
   const [password, setPassword] = useState('');
   const [clientDetails, setClientDetails] = useState(null);
   const [error, setError] = useState('');
+  const [declineReason, setDeclineReason] = useState('');
+  const [selectedClient, setSelectedClient] = useState(null);
+  const [showReasonModal, setShowReasonModal] = useState(false);
 
   const handleCredentialsSubmit = async (e) => {
     e.preventDefault();
@@ -106,31 +158,47 @@ const ClientsList = () => {
     }
   };
 
-  const handleDeclineCase = async () => {
+  const handleDeclineCase = async (client) => {
     try {
-      if (!clientDetails || !clientDetails.clientEmail) {
+      if (!client || !client.clientEmail) {
         console.error('Invalid client details or email');
         return;
       }
 
+      // Show the reason modal overlay
+      setShowReasonModal(true);
+      setSelectedClient(client);
+    } catch (error) {
+      console.error('Error declining case:', error);
+      // Show error toast notification
+      toast.error('Error declining case. Please try again.', { autoClose: 3000 });
+    }
+  };
+
+  const handleSubmitDeclineReason = async (e) => {
+    e.preventDefault();
+
+    try {
+      // Send the decline reason to the backend
       const emailResponse = await axios.post('http://localhost:5000/api/declined', {
         advocateUsername: username,
-        clientUsername: clientDetails.clientUsername,
-        to: clientDetails.clientEmail,
+        clientUsername: selectedClient.clientUsername,
+        to: selectedClient.clientEmail,
         subject: 'Advocate Declined Your Case',
-        text: `Dear ${clientDetails.clientUsername},\n\nYour case has been declined by the advocate. Please choose another advocate for assistance.`,
+        text: `Dear ${selectedClient.clientUsername},\n\nYour case has been declined by the advocate.\n Reason: ${declineReason}. \n\nPlease choose another advocate for assistance.`,
       });
 
       if (emailResponse.data.success) {
         console.log('Decline email sent successfully');
-
-        // Mark the case as declined on the backend
 
         // Clear client details to prevent it from being displayed again
         setClientDetails(null);
 
         // Show success toast notification
         toast.success('Case declined successfully!', { autoClose: 3000 }); // 3000 milliseconds (3 seconds)
+
+        // Close the reason modal overlay
+        setShowReasonModal(false);
       } else {
         console.error('Error sending decline email:', emailResponse.data.message);
         // Show error toast notification
@@ -143,17 +211,17 @@ const ClientsList = () => {
     }
   };
 
-  const handleAcceptCase = async () => {
+  const handleAcceptCase = async (client) => {
     try {
-      if (!clientDetails || !clientDetails.clientEmail) {
-        console.error('Invalid client details or email');                     
+      if (!client || !client.clientEmail) {
+        console.error('Invalid client details or email');
         return;
       }
 
       const emailResponse = await axios.post('http://localhost:5000/api/accepted', {
-        to: clientDetails.clientEmail,
+        to: client.clientEmail,
         subject: 'Advocate Accepted Your Case',
-        text: `Dear ${clientDetails.clientUsername},\n\nYour case has been accepted by the advocate. You can now proceed for case filing.`,
+        text: `Dear ${client.clientUsername},\n\nYour case has been accepted by the advocate. You can now proceed for case filing.`,
       });
 
       if (emailResponse.data.success) {
@@ -185,6 +253,8 @@ const ClientsList = () => {
       toast.error('Error accepting case. Please try again.', { autoClose: 3000 });
     }
   };
+
+
   return (
     <div>
       <Navbar2 />
@@ -217,24 +287,60 @@ const ClientsList = () => {
       {clientDetails && (
         <div>
           <AdvocateBox>
-            <h2>Client Details</h2> <br />
-            <AdvocateBox>
-              <h3>
-                <strong>-) Name: </strong> {clientDetails.clientUsername}
-              </h3>
-              <h3>
-                <strong>-) Case Overview: </strong> {clientDetails.caseOverview}
-              </h3>
-              <Button onClick={handleAcceptCase}>Accept Case</Button>
-              <DeclineButton onClick={handleDeclineCase}>Decline Case</DeclineButton>
-            </AdvocateBox>{' '}
-            <br />
+            
+            <Table>
+              <thead>
+                <TableRow>
+                  <TableHeader>Client Name</TableHeader>
+                  <TableHeader>Case Type</TableHeader>
+                  <TableHeader>Case Overview</TableHeader>
+                  <TableHeader>Action</TableHeader>
+                  <TableHeader>Action</TableHeader>
+                </TableRow>
+              </thead>
+              <tbody>
+                <TableRow>
+                  <TableCell>{clientDetails.clientUsername}</TableCell>
+                  <TableCell>{clientDetails.caseType}</TableCell>
+                  <TableCell>{clientDetails.caseOverview}</TableCell>
+                  <TableCell>
+                    <Button onClick={() => handleAcceptCase(clientDetails)}>Accept Case</Button>
+                  </TableCell>
+                  <TableCell>
+                    <DeclineButton onClick={() => handleDeclineCase(clientDetails)}>Decline Case</DeclineButton>
+                  </TableCell>
+                </TableRow>
+              </tbody>
+            </Table>
           </AdvocateBox>
         </div>
       )}
 
       {error && <p style={{ color: 'red' }}>{error}</p>}
       <ToastContainer />
+
+      {/* Reason Modal Overlay */}
+      {showReasonModal && (
+        <ModalOverlay>
+          <Modal>
+            <Form onSubmit={handleSubmitDeclineReason}>
+              <FormGroup>
+                <Label htmlFor="reason">Reason:</Label>
+                <ReasonInput
+                  id="reason"
+                  value={declineReason}
+                  onChange={(e) => setDeclineReason(e.target.value)}
+                  required
+                />
+              </FormGroup>
+              <FormGroupModal>
+                <Button type="submit">Submit</Button>
+                <Button onClick={() => setShowReasonModal(false)}>Cancel</Button>
+              </FormGroupModal>
+            </Form>
+          </Modal>
+        </ModalOverlay>
+      )}
     </div>
   );
 };

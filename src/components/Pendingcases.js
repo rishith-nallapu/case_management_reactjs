@@ -3,13 +3,10 @@ import axios from 'axios';
 import styled from 'styled-components';
 import Navbar3 from './Navbar3';
 
-const AdvocateBox = styled.div`
+const AdvocateBox = styled.tr`
   border: 2px solid black;
-  padding: 30px;
-  margin: 40px 70px;
-  border-radius: 20px;
+  text-align:center;
 `;
-
 const Info = styled.div`
   border-sizing: border-box;
   margin-left: 8px;
@@ -18,14 +15,23 @@ const Info = styled.div`
 `;
 
 const PendingCasesWrapper = styled.div`
-  border: 2px solid black;
   padding: 40px;
-  margin: 40px 55px;
+  margin: 10px 55px;
   border-radius: 10px;
+ 
+`;
+const TableHeader = styled.th`
+  border: 2px solid black;
+  padding: 10px;
+`;
+
+const TableCell = styled.td`
+  border: 2px solid black;
+  padding: 10px;
 `;
 
 const ProgressBar = styled.div`
-  width: 100%;
+  width: 300px;
   height: 10px;
   background-color: #f0f0f0;
   margin-bottom: 25px;
@@ -68,6 +74,8 @@ const SelectDistrict = styled.select`
   padding: 8px;
   margin-bottom: 16px;
   border-radius: 5px;
+  background-color: #f2f2f2;
+  border: 1px solid #ccc;
 `;
 
 const RadioGroup = styled.div`
@@ -77,7 +85,7 @@ const RadioGroup = styled.div`
 `;
 
 const RadioButton = styled.input`
-  margin-right: 5px;
+  margin-right: 0px;
 `;
 
 const OptionLabel = styled.label`
@@ -86,7 +94,7 @@ const OptionLabel = styled.label`
 `;
 
 const OptionText = styled.span`
-  margin-left: 5px;
+  margin-right: 20px;
 `;
 
 const PendingCases = () => {
@@ -211,72 +219,96 @@ const PendingCases = () => {
                         onChange={(e) => setSearchCnrNumber(e.target.value)}
                     />
 
-                    {pendingCases.map((caseItem) => (
-                        <AdvocateBox key={caseItem._id}>
-                            <p>
-                                <strong>Case Number:</strong> {caseItem.cnrNumber}
-                            </p>
-                            <p>
-                                <strong>Filing Date:</strong> {caseItem.filingDate}
-                            </p> <br />
-                            <ProgressBar>
-                                <ProgressLevel
-                                    style={{
-                                        width: `${progressLevels[caseItem._id] === 'firstCourt'
-                                            ? '25%'
-                                            : progressLevels[caseItem._id] === 'pending'
-                                                ? '50%'
-                                                : progressLevels[caseItem._id] === 'completed'
-                                                    ? '100%'
-                                                    : '0%'
-                                            }`,
-                                    }}
-                                />
-                            </ProgressBar>
+                    <table>
+                        <thead>
+                            <tr>
+                                <TableHeader>Case Number</TableHeader>
+                                <TableHeader>Filing Date</TableHeader>
+                                <TableHeader>Progress</TableHeader>
+                                <TableHeader>Action</TableHeader>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {pendingCases.map((caseItem) => (
+                                <AdvocateBox key={caseItem._id}>
+                                    <TableCell>{caseItem.cnrNumber}</TableCell>
+                                    <TableCell>{caseItem.filingDate}</TableCell>
+                                    <TableCell>
+                                        <ProgressBar>
+                                            <ProgressLevel
+                                                style={{
+                                                    width: `${progressLevels[caseItem._id] === 'firstCourt'
+                                                        ? '25%'
+                                                        : progressLevels[caseItem._id] === 'pending'
+                                                            ? '50%'
+                                                            : progressLevels[caseItem._id] === 'completed'
+                                                                ? '100%'
+                                                                : progressLevels[caseItem._id] === 'dismissal'
+                                                                    ? '0.05%'
+                                                                    : '0%'
+                                                        }`,
+                                                }}
+                                            />
+                                        </ProgressBar>
 
-                            <RadioGroup>
-                                <OptionLabel>
-                                    <RadioButton
-                                        type="radio"
-                                        name={`level_${caseItem._id}`}
-                                        checked={progressLevels[caseItem._id] === 'firstCourt'}
-                                        onChange={() => handleLevelChange(caseItem._id, 'firstCourt')}
-                                    />
-                                    <OptionText>First Court</OptionText>
-                                </OptionLabel>
-                                <OptionLabel>
-                                    <RadioButton
-                                        type="radio"
-                                        name={`level_${caseItem._id}`}
-                                        checked={progressLevels[caseItem._id] === 'pending'}
-                                        onChange={() => handleLevelChange(caseItem._id, 'pending')}
-                                    />
-                                    <OptionText>Pending</OptionText>
-                                </OptionLabel>
-                                <OptionLabel>
-                                    <RadioButton
-                                        type="radio"
-                                        name={`level_${caseItem._id}`}
-                                        checked={progressLevels[caseItem._id] === 'completed'}
-                                        onChange={() => handleLevelChange(caseItem._id, 'completed')}
-                                    />
-                                    <OptionText>Completed</OptionText>
-                                </OptionLabel>
-                                <OptionLabel>
-                                    <RadioButton
-                                        type="radio"
-                                        name={`level_${caseItem._id}`}
-                                        checked={!progressLevels[caseItem._id]}
-                                        onChange={() => handleLevelChange(caseItem._id, '')}
-                                    />
-                                    <OptionText>None</OptionText>
-                                </OptionLabel>
-                            </RadioGroup>
-                            <SubmitLevelButton onClick={() => handleSubmitLevel(caseItem._id)}>
-                                Submit Level
-                            </SubmitLevelButton>
-                        </AdvocateBox>
-                    ))}
+                                    </TableCell>
+                                    <TableCell>
+                                        <RadioGroup>
+                                            <OptionLabel>
+                                                <RadioButton
+                                                    type="radio"
+                                                    name={`level_${caseItem._id}`}
+                                                    checked={progressLevels[caseItem._id] === 'firstCourt'}
+                                                    onChange={() => handleLevelChange(caseItem._id, 'firstCourt')}
+                                                />
+                                                <OptionText>First Court</OptionText>
+                                            </OptionLabel>
+                                            <OptionLabel>
+                                                <RadioButton
+                                                    type="radio"
+                                                    name={`level_${caseItem._id}`}
+                                                    checked={progressLevels[caseItem._id] === 'pending'}
+                                                    onChange={() => handleLevelChange(caseItem._id, 'pending')}
+                                                />
+                                                <OptionText>Pending</OptionText>
+                                            </OptionLabel>
+                                            <OptionLabel>
+                                                <RadioButton
+                                                    type="radio"
+                                                    name={`level_${caseItem._id}`}
+                                                    checked={progressLevels[caseItem._id] === 'completed'}
+                                                    onChange={() => handleLevelChange(caseItem._id, 'completed')}
+                                                />
+                                                <OptionText>Completed</OptionText>
+                                            </OptionLabel>
+                                            <OptionLabel>
+                                                <RadioButton
+                                                    type="radio"
+                                                    name={`level_${caseItem._id}`}
+                                                    checked={progressLevels[caseItem._id] === 'dismissal'}
+                                                    onChange={() => handleLevelChange(caseItem._id, 'dismissal')}
+                                                />
+                                                <OptionText>Dismissal</OptionText>
+                                            </OptionLabel>
+                                            <OptionLabel>
+                                                <RadioButton
+                                                    type="radio"
+                                                    name={`level_${caseItem._id}`}
+                                                    checked={!progressLevels[caseItem._id]}
+                                                    onChange={() => handleLevelChange(caseItem._id, '')}
+                                                />
+                                                <OptionText>None</OptionText>
+                                            </OptionLabel>
+                                        </RadioGroup>
+
+                                        <SubmitLevelButton onClick={() => handleSubmitLevel(caseItem._id)}>
+                                            Submit Level
+                                        </SubmitLevelButton>
+                                    </TableCell>
+                                </AdvocateBox>
+                            ))}
+                        </tbody>
+                    </table>
                 </PendingCasesWrapper>
             </Info>
         </>

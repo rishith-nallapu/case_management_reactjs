@@ -98,6 +98,7 @@ const AdvocatesList = () => {
     username: '',
     email: '',
     caseOverview: '',
+    caseType:'',
   });
   const [showModal, setShowModal] = useState(false);
 
@@ -137,6 +138,7 @@ const AdvocatesList = () => {
         clientUsername: formData.username,
         clientEmail: formData.email,
         caseOverview: formData.caseOverview,
+        caseType: formData.caseType,
       });
 
       if (response.data.success) {
@@ -146,6 +148,7 @@ const AdvocatesList = () => {
           username: '',
           email: '',
           caseOverview: '',
+          caseType: '',
         });
         setSelectedAdvocate(null);
         setShowModal(false);
@@ -216,6 +219,17 @@ const AdvocatesList = () => {
                     id="email"
                     name="email"
                     value={formData.email}
+                    onChange={handleFormChange}
+                    required
+                  />
+                </FormGroup>
+                <FormGroup>
+                  <label htmlFor="caseType">Case Type:</label>
+                  <Input
+                    type="text"
+                    id="caseType"
+                    name="caseType"
+                    value={formData.caseType}
                     onChange={handleFormChange}
                     required
                   />

@@ -1,12 +1,13 @@
 import React, { useState } from 'react';
 import axios from 'axios';
 import styled from 'styled-components';
+import { ToastContainer, toast } from 'react-toastify';
 import Navbar3 from './Navbar3';
 
 const AdvocateBox = styled.div`
-  border: 2px solid black;
+text-align:center;
   padding: 20px;
-  margin:40px 70px;
+  margin: 40px 50px;
 `;
 
 const Info = styled.div`
@@ -20,6 +21,7 @@ const Form = styled.form`
   display: flex;
   flex-direction: column;
   margin-bottom: 20px;
+  
 `;
 
 const Label = styled.label`
@@ -38,9 +40,9 @@ const Button = styled.button`
   cursor: pointer;
   border: none;
   border-radius: 5px;
-&:hover{
-    background-color:#4caf50;
-  }  
+  &:hover {
+    background-color: #4caf50;
+  }
 `;
 
 const StyledSelect = styled.select`
@@ -48,7 +50,30 @@ const StyledSelect = styled.select`
   padding: 8px;
   margin-bottom: 16px;
   border-radius: 5px;
-  
+  background-color: #f2f2f2;
+  border: 1px solid #ccc;
+`;
+
+const Table = styled.table`
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 20px;
+`;
+
+const TableHeader = styled.th`
+  border: 2px solid black;
+  padding: 8px;
+`;
+
+const TableCell = styled.td`
+  border: 2px solid black;
+  padding: 4px;
+`;
+
+const TableRow = styled.tr`
+  &:nth-child(even) {
+    background-color: #f2f2f2;
+  }
 `;
 
 const CasesList = () => {
@@ -93,29 +118,23 @@ const CasesList = () => {
       });
 
       // Notify user of success (you can use a notification library for better UX)
-      alert('CNR generated successfully!');
+      toast.success('CNR generated successfully!')
     } catch (error) {
       console.error('Error generating CNR:', error);
       // Handle error generating CNR
     }
   };
 
-
-
   return (
     <>
       <Navbar3 />
       <AdvocateBox>
         <Info>
-
           <Form onSubmit={handleSubmit}>
-            <Label htmlFor="district"> <h3>Select Your District:</h3></Label>
-            <StyledSelect
-              name="district"
-              value={district}
-              onChange={handleChange}
-              required
-            >
+            <Label htmlFor="district">
+              <h3>Select Your District:</h3>
+            </Label>
+            <StyledSelect name="district" value={district} onChange={handleChange} required>
               <option value="">Select Districts</option>
               <option value="adilabad">Adilabad</option>
               <option value="bhadradri">Bhadradri</option>
@@ -151,42 +170,46 @@ const CasesList = () => {
             <Button type="submit">Submit</Button>
           </Form>
 
-
           {cases.length > 0 && (
-            <div>
-              <br />
-              <h3>Cases for {district} District:</h3> <br />
-
-              {cases.map((caseItem) => (
-                <AdvocateBox key={caseItem._id}>
-                  <strong>{caseItem.plaintiffName}</strong> vs{' '}
-                  <strong>{caseItem.defendantName}</strong>
-                  <p>
-                    <strong>Subject:</strong> {caseItem.subject}
-                  </p>
-                  <p>
-                    <strong>Case Type:</strong> {caseItem.caseType}
-                  </p>
-                  <p>
-                    <strong>Filing Date:</strong> {caseItem.filingDate}
-                  </p>
-                  {caseItem.count === 1 && (
-                    <div>
-                      <p>No CNR assigned</p>
-                      <Button onClick={() => handleGenerateCNR(caseItem._id)}>Generate CNR</Button>
-                    </div>
-                  )}
-                  <br />
-                </AdvocateBox>
-              ))}
-            </div>
+            <Table>
+              <thead>
+                <tr>
+                  <TableHeader>Plaintiff Name</TableHeader>
+                  <TableHeader>Defendant Name</TableHeader>
+                  <TableHeader>Subject</TableHeader>
+                  <TableHeader>Case Type</TableHeader>
+                  <TableHeader>Filing Date</TableHeader>
+                  <TableHeader>Action</TableHeader>
+                </tr>
+              </thead>
+              <tbody>
+                {cases.map((caseItem) => (
+                  <TableRow key={caseItem._id}>
+                    <TableCell>{caseItem.plaintiffName}</TableCell>
+                    <TableCell>{caseItem.defendantName}</TableCell>
+                    <TableCell>{caseItem.subject}</TableCell>
+                    <TableCell>{caseItem.caseType}</TableCell>
+                    <TableCell>{caseItem.filingDate}</TableCell>
+                    <TableCell>
+                      {caseItem.count === 1 && (
+                        <div>
+                          <p>Assign CNR</p>  <br />
+                          <Button onClick={() => handleGenerateCNR(caseItem._id)}>
+                            Generate CNR
+                          </Button>
+                        </div>
+                      )}
+                    </TableCell>
+                  </TableRow>
+                ))}
+              </tbody>
+            </Table>
           )}
         </Info>
       </AdvocateBox>
+      <ToastContainer />
     </>
   );
 };
 
 export default CasesList;
-
-

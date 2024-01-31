@@ -97,7 +97,7 @@ const Login = () => {
         const { username } = data;
 
         // Pass the username to the Navbar component
-        navigate('/Navbar', { state: { username } });
+        navigate('/casestatus');
       } else {
         setError(data.message);
       }

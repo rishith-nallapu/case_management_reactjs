@@ -57,12 +57,7 @@ const LogoImage = styled.img`
   margin-left:20px;
 `;
 
-const UserName = styled.span`
-  color: white;
-  font-size: 18px;
-  text-decoration: overline;
 
-`;
 
 const ContentBelowNavbar = styled.div`
   margin-top: 60px;
@@ -71,12 +66,10 @@ const ContentBelowNavbar = styled.div`
 
 const Navbar2 = ({ children }) => {
   const navigate2 = useNavigate();
-  const location2 = useLocation();
-
+  
   const handleLogoClick = () => {
     navigate2('/');
   };
-  const userName = location2.state ? location2.state.username : null;
 
   return (
     <>
@@ -105,7 +98,6 @@ const Navbar2 = ({ children }) => {
           <NavbarItem>
             <LogoContainer onClick={handleLogoClick}>
               <LogoImage src={law} alt="Logo" />   <br />
-              <UserName> {userName}</UserName>
             </LogoContainer>
           </NavbarItem>
         </NavbarList>

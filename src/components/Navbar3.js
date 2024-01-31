@@ -71,12 +71,10 @@ const ContentBelowNavbar = styled.div`
 
 const Navbar3 = ({ children }) => {
   const navigate3 = useNavigate();
-  const location3 = useLocation();
 
   const handleLogoClick = () => {
     navigate3('/');
   };
-  const userName = location3.state ? location3.state.username : null;
 
   return (
     <>
@@ -85,11 +83,6 @@ const Navbar3 = ({ children }) => {
           <NavbarItem>
             <NavbarLink to="/caseslist" >
               Cases list
-            </NavbarLink>
-          </NavbarItem>
-          <NavbarItem>
-            <NavbarLink to="/judgeslist" >
-              Judges list
             </NavbarLink>
           </NavbarItem>
           <NavbarItem>
@@ -108,10 +101,13 @@ const Navbar3 = ({ children }) => {
             </NavbarLink>
           </NavbarItem>
           <NavbarItem>
+            <NavbarLink to="/caserecord" >
+              Case record
+            </NavbarLink>
+          </NavbarItem>
+          <NavbarItem>
             <LogoContainer onClick={handleLogoClick}>
               <LogoImage src={law} alt="Logo" />   <br />
-
-              <UserName> {userName}</UserName>
             </LogoContainer>
           </NavbarItem>
         </NavbarList>

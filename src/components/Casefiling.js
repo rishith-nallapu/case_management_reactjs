@@ -53,6 +53,8 @@ font-size:17px;
 `;
 
 const TextArea = styled.textarea`
+font-size:18px;
+
   width: 100%;
   padding: 8px;
   margin-bottom: 16px;
@@ -83,6 +85,20 @@ const Button = styled.button`
     background-color: green;
   }
 `;
+const OButton = styled.button`
+  background-color: green;
+  color: white;
+  padding: 10px 10px;
+  width:100px;
+  cursor: pointer;
+  border: none;
+  border-radius: 5px;
+
+
+  &:hover {
+    background-color: red;
+  }
+`;
 
 
 const CaseFiling = () => {
@@ -94,6 +110,7 @@ const CaseFiling = () => {
     plaintiffAge: '',
     plaintiffCaste: '',
     plaintiffAdvocate: '',
+    plaintiffEmail:'',
     defendantName: '',
     defendantFatherOrMotherName: '',
     defendantAge: '',
@@ -114,17 +131,36 @@ const CaseFiling = () => {
     });
   };
 
+  const handleGenerateOTP = async () => {
+    try {
+      const response = await axios.post('http://localhost:5000/api/send-otp', {
+        mobileNumber: formData.mobileNumber,
+        email: formData.plaintiffEmail,
+      });
+      console.log('OTP sent successfully:', response.data);
+    } catch (error) {
+      console.error('Error sending OTP:', error);
+    }
+  };
+
+
   const handleSubmit = async (e) => {
     e.preventDefault();
-
     try {
-      // Make an API call to store the form data in the database
+      const response = await axios.post('http://localhost:5000/api/verify-otp', {
+        email: formData.plaintiffEmail,
+        otp: formData.otp,
+      });
+
+    if (response.data.success) {
+      console.log('OTP verified successfully!');
+
       await axios.post('http://localhost:5000/api/cases', formData);
 
       console.log('Form submitted:', formData);
       toast.success('Case filed successfully!', { autoClose: 3000 }); // 3000 milliseconds (3 seconds)
 
-      // Reset the form after successful submission
+    
       setFormData({
         caseType: '',
         district: '',
@@ -132,6 +168,7 @@ const CaseFiling = () => {
         plaintiffFatherOrMotherName: '',
         plaintiffAge: '',
         plaintiffCaste: '',
+        plaintiffEmail:'',
         plaintiffAdvocate: '',
         defendantName: '',
         defendantFatherOrMotherName: '',
@@ -142,8 +179,12 @@ const CaseFiling = () => {
         plaintiffAddress: '',
         defendantAddress: '',
         subject: '',
+        otp:'',
         filingDate: '',
       });
+    }else {
+      toast.error('Invalid OTP. Please try again.');
+    }
     } catch (error) {
       console.error('Error filing case:', error);
       toast.error('Error filing case. Please try again.', { autoClose: 3000 });
@@ -259,6 +300,16 @@ const CaseFiling = () => {
               placeholder="Enter Plaintiff Caste"
               required
             />
+ 
+          <Label>Plaintiff Email:</Label>
+          <Input
+            type="email"
+            name="plaintiffEmail"
+            value={formData.plaintiffEmail}
+            onChange={handleChange}
+            required
+          />
+
 
             <Label>Mobile Number:</Label>
             <Input
@@ -362,7 +413,20 @@ const CaseFiling = () => {
               onChange={handleChange}
               required
             />
-          </FormBox>
+
+          <Label>OTP:</Label>
+          <Input
+            type="text"
+            name="otp"
+            value={formData.otp}
+            onChange={handleChange}
+            placeholder="Enter OTP"
+            required
+          />
+          <OButton type="button" onClick={handleGenerateOTP}>
+            Generate OTP
+          </OButton>
+        </FormBox>
 
           <Button type="submit">File Case</Button>
         </form>

@@ -135,7 +135,7 @@ const AcceptedComponent = () => {
     }
 
     try {
-      const response = await axios.post(`http://localhost:5000/api/login4`, {
+      const response = await axios.post(`http://localhost:5000/api/login3`, {
         username: advocateUsername,
         password: password
       });

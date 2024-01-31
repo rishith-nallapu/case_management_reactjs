@@ -32,6 +32,7 @@ import Guide1 from './components/Guide1';
 import Guide2 from './components/Guide2';
 import Guide3 from './components/Guide3';
 import Pretrial from './components/Pretrial';
+import Caserecord from './components/Caserecord';
 
 
 function App() {
@@ -69,6 +70,7 @@ function App() {
         <Route path="/guide2" element={<Guide2/>} />
         <Route path="/guide3" element={<Guide3/>} />
         <Route path="/pretrial" element={<Pretrial/>} />
+        <Route path="/caserecord" element={<Caserecord/>} />
 
       </Routes>
 

@@ -16,7 +16,7 @@ border:3px solid black;
 
 `;
 
-const Content = () => {
+const Judges = () => {
   return (
     <StyledContent>
       <Navbar />
@@ -26,7 +26,7 @@ const Content = () => {
   );
 };
 
-export default Content;
+export default Judges;
 
 
 

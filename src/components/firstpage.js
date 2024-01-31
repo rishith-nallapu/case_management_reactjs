@@ -31,7 +31,7 @@ const Heading = styled.h4`
 
 const ContentBox = styled.div`
   max-width: 850px;
-  margin: 50px auto;
+  margin: 100px auto;
   padding: 20px;
   border: 2px solid #212529;
   border-radius: 8px;
@@ -88,6 +88,7 @@ const LinksBox = styled.div`
   box-shadow: 8px 8px 8px rgba(0, 0, 0, 0.3);
 
 `;
+
 
 
 const BoxLink = styled(Link)`
@@ -189,24 +190,7 @@ const FirstPage = () => {
           </ContentBox>
         </ContentWrapper>
       </Container>
-
-
-      <CaseCountWrapper>
-        <CaseCountBox>
-          <CaseCountTitle>Pending Civil Cases</CaseCountTitle>
-          <CaseCountNumber>{pendingCivilCases}</CaseCountNumber>
-        </CaseCountBox>
-        <CaseCountBox>
-          <CaseCountTitle>Pending Criminal Cases</CaseCountTitle>
-          <CaseCountNumber>{pendingCriminalCases}</CaseCountNumber>
-        </CaseCountBox>
-        <CaseCountBox>
-          <CaseCountTitle>Pending Family Cases</CaseCountTitle>
-          <CaseCountNumber>{pendingFamilyCases}</CaseCountNumber>
-        </CaseCountBox>
-      </CaseCountWrapper>
-
-
+        
 
       <Footer>
         &copy;    Designed and Developed by E-Portal Management

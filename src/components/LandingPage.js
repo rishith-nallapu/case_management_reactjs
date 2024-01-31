@@ -4,6 +4,7 @@ import styled from 'styled-components';
 import clientImage from './patient.png';
 import advocateImage from './advocate.png';
 import registrarImage from './clerk.png';
+import judgeImage from './judge.png';
 
 const LandingContainer = styled.div`
 background-color:#212529;
@@ -65,6 +66,7 @@ const LandingPage = () => {
         <Image src={registrarImage} alt="Registrar" />
         <LogoButton to="/login3">Registrar</LogoButton>
       </Column>
+
     </LandingContainer>
   );
 };

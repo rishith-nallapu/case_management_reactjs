@@ -105,7 +105,6 @@ const IssuingDates = () => {
     <div>
       <Navbar3 />
       <Container>
-        <Title>Enter Issuing Dates</Title>
         <Label htmlFor="cnrNumber">CNR Number:</Label>
         <Input
           type="text"
@@ -137,7 +136,7 @@ const IssuingDates = () => {
           value={time}
           onChange={(e) => setTime(e.target.value)}
         />
-        <Button onClick={handleSubmit}>Submit Issuing Dates</Button>
+        <Button onClick={handleSubmit}>Submit</Button>
       </Container>
       <ToastContainer />
     </div>
